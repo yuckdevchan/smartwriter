@@ -8,68 +8,88 @@
     <link rel="stylesheet" href="editor.css" />
     <link rel="manifest" href="manifest.json">
     <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+    <script src=" https://cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js "></script>
+    <link href=" https://cdn.jsdelivr.net/npm/highlightjs@9.16.2/styles/monokai-sublime.min.css " rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <title>Smart Writer</title>
 </head>
 <body>
     <div class="main-content">
         <div class="sidebar">
-            <div class="sidebar-top">
-                <div class="notes-header">
-                    <p class="serif-heading">Recent Notes</p>
-                    <button class="action-button"><iconify-icon icon="ci:edit-pencil-01"></iconify-icon></button>
+            <div class="sidebar-content">
+                <div class="sidebar-top">
+                    <div class="notes-header">
+                        <p class="serif-heading">Recent Notes</p>
+                        <button class="action-button"><iconify-icon icon="ci:note-edit"></iconify-icon></button>
+                    </div>
+                    <div class="note-items">
+                        <button class="note-item" id="currentNote">
+                            <iconify-icon icon="ci:notebook"></iconify-icon>
+                            <p class="note-title"></p>
+                        </button>
+                        <button class="note-item">
+                            <iconify-icon icon="ci:notebook"></iconify-icon>
+                            <p class="note-title">New Note</p>
+                        </button>
+                    </div>
                 </div>
-                <div class="note-items">
-                    <button class="note-item" id="currentNote">
-                        <iconify-icon icon="ci:notebook"></iconify-icon>
-                        <p class="note-title"></p>
-                    </button>
-                    <button class="note-item">
-                        <iconify-icon icon="ci:notebook"></iconify-icon>
-                        <p class="note-title">New Note</p>
-                    </button>
+                <div class="sidebar-bottom">
+                    <button class="note-item" id="openAboutButton" onclick="openAbout()"><iconify-icon icon="ci:info"></iconify-icon>About</button>
+                    <button class="note-item" id="openSettingsButton" onclick="openSettings()"><iconify-icon icon="ci:settings"></iconify-icon>Settings</button>
                 </div>
-            </div>
-            <div class="sidebar-bottom">
-                <button class="note-item" id="openSettingsButton" onclick="openSettings()"><iconify-icon icon="ci:settings"></iconify-icon>Settings</button>
             </div>
         </div>
         <div class="content">
             <div id="editor"></div>
             <div class="status-bar">
-                <p id="wordCount"></p>
-                <p id="characterCount"></p>
+                <div class="left"></div>
+                <div class="right">
+                    <p id="wordCount"></p>
+                    <p id="characterCount"></p>
+                </div>
                 <!-- <div class="spellcheck"> -->
                     <!-- <input type="checkbox" id="spellcheckToggle" onchange="toggleSpellcheck(this)" checked> -->
                     <!-- <label for="spellcheckToggle">Check Spelling</label> -->
                 <!-- </div> -->
             </div>
         </div>
-        <div class="settings-modal" style="display: none;">
-            <div class="settings-modal-content">
-                <div class="settings-modal-header">
-                    <h2>Settings</h2>
-                    <button id="closeSettingsButton" class="action-button" onclick="closeSettings()"><iconify-icon icon="ci:close-lg"></iconify-icon></button>
+    </div>
+    <div class="settings-modal" style="opacity: 0;">
+        <div class="settings-modal-content">
+            <div class="settings-modal-header">
+                <h2>Settings</h2>
+                <button id="closeSettingsButton" class="action-button" onclick="closeSettings()"><iconify-icon icon="ci:close-lg"></iconify-icon></button>
+            </div>
+            <div class="settings-content">
+                <div class="settings-modal-section">
+                    <h3>Font Size</h3>
+                    <input type="range" min="0.5" max="2" step="0.1" value="1" id="scaleSlider">
                 </div>
-                <div class="settings-content">
-                    <div class="settings-modal-section">
-                        <h3>Font Size</h3>
-                        <input type="range" min="0.5" max="2" step="0.1" value="1" id="scaleSlider">
-                    </div>
-                    <div class="settings-modal-section">
-                        <h3>Theme</h3>
-                        <select id="themeSelect">
-                            <option value="light">Light</option>
-                            <option value="dark">Dark</option>
-                        </select>
-                    </div>
-                    <div class="settings-modal-section">
-                        <h3>Editor Type</h3>
-                        <select id="editTypeSelect">
-                            <option value="markdown">Markdown</option>
-                            <option value="wysiwyg">WYSIWYG</option>
-                        </select>
-                    </div>
+                <div class="settings-modal-section">
+                    <h3>Theme</h3>
+                    <select id="themeSelect">
+                        <option value="dark">Dark</option>
+                        <option value="light">Light</option>
+                    </select>
                 </div>
+                <div class="settings-modal-section">
+                    <h3>Editor Type</h3>
+                    <select id="editTypeSelect">
+                        <option value="markdown">Markdown</option>
+                        <option value="wysiwyg">WYSIWYG</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="about-modal" style="opacity: 0;">
+        <div class="about-modal-content">
+            <div class="about-modal-header">
+                <h2>About</h2>
+                <button id="closeAboutButton" class="action-button" onclick="closeAbout()"><iconify-icon icon="ci:close-lg"></iconify-icon></button>
+            </div>
+            <div class="about-content">
+                <p>Smart Writer is a sleek, minimalist and modern note-taking app.</p>
             </div>
         </div>
     </div>
@@ -102,11 +122,27 @@
         // });
 
         function openSettings() {
-            document.querySelector('.settings-modal').style.display = 'block';
+            document.querySelector('.settings-modal').style.opacity = '1';
+            document.querySelector('.main-content').style.filter = 'brightness(0.5)';
+            document.querySelector('.main-content').style.pointerEvents = 'none';
         }
 
         function closeSettings() {
-            document.querySelector('.settings-modal').style.display = 'none';
+            document.querySelector('.settings-modal').style.opacity = '0';
+            document.querySelector('.main-content').style.filter = 'brightness(1)';
+            document.querySelector('.main-content').style.pointerEvents = 'auto';
+        }
+
+        function openAbout() {
+            document.querySelector('.about-modal').style.opacity = '1';
+            document.querySelector('.main-content').style.filter = 'brightness(0.5)';
+            document.querySelector('.main-content').style.pointerEvents = 'none';
+        }
+
+        function closeAbout() {
+            document.querySelector('.about-modal').style.opacity = '0';
+            document.querySelector('.main-content').style.filter = 'brightness(1)';
+            document.querySelector('.main-content').style.pointerEvents = 'auto';
         }
 
         function toggleSpellcheck(e) {
@@ -134,6 +170,9 @@
             markdown = editor.getMarkdown();
             if ((markdown.startsWith("\\#") || markdown.startsWith("#"))) {
                 title = markdown.split("\n")[0].replace("#", "").trim();
+                if (title == "" || title == " ") {
+                    title = "New Note";
+                }
                 document.querySelector('.note-title').innerText = title;
             } else {
                 document.querySelector('.note-title').innerText = "New Note";
@@ -144,6 +183,7 @@
             updateWordCount();
             updateCharacterCount();
             updateNoteTitle();
+            updateSyntaxHighlighting();
         });
 
         updateWordCount();

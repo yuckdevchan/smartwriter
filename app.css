@@ -16,12 +16,22 @@ body {
     display: flex;
     flex-direction: row;
     height: 100vh;
+    transition: filter 0.15s ease;
 }
 
 .sidebar {
-    background-color: #292929;
+    /* background-color: #292929; */
+    background: linear-gradient(90deg, #292929, #292929, #292929, #292929, #292929, #292929, #292929, #292929, #292929, #292929, #292929, #292929, #1E1E1E);
     padding: 0.5em;
-    width: 15em;
+    width: 17em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.sidebar-content {
+    width: 92%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -31,7 +41,7 @@ body {
     margin-bottom: 0.5em;
 }
 
-#openSettingsButton {
+#openSettingsButton, #openAboutButton {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -71,7 +81,7 @@ body {
     font: inherit;
     color: inherit;
     background-color: #292929;
-    width: 100%;
+    width: 90%;
 }
 
 .note-title {
@@ -91,18 +101,27 @@ body {
 }
 
 .status-bar {
-    background-color: #292929;
+    padding-left: 1em;
+    background-color: #1E1E1E;
     display: flex;
     flex-direction: row;
-    width: 100%;
+    justify-content: space-between;
+    width: calc(100% - 1em);
     align-items: center;
     gap: 1em;
     user-select: none;
 }
 
+.status-bar .right {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5em;
+    padding-right: 1em;
+}
+
 .toastui-editor-defaultUI {
     border: none !important;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 .toastui-editor-defaultUI-toolbar {
@@ -127,6 +146,15 @@ body {
     font-size: 1.2em;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap');
+
+.toastui-editor-contents pre {
+    background-color: #292929 !important;
+    border-radius: 0.5em;
+    font-family: 'Fira Code', monospace;
+    font-size: 1.2em;
+}
+
 .toastui-editor-mode-switch {
     display: none !important;
 }
@@ -145,7 +173,7 @@ body {
     background-color: #464646;
 }
 
-.settings-modal {
+.settings-modal, .about-modal {
     user-select: none;
     position: fixed;
     top: 50%;
@@ -162,9 +190,10 @@ body {
     z-index: 999;
     justify-content: center;
     align-items: center;
+    transition: opacity 0.15s ease;
 }
 
-.settings-modal-header {
+.settings-modal-header, .about-modal-header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
