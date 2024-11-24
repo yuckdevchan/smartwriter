@@ -15,9 +15,8 @@
     <!-- tippy js -->
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://unpkg.com/tippy.js@6"></script>
-    <!-- google platform -->
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <meta name="google-signin-client_id" content="712821347110-2uma4qc17qvav309ngmvcovdi0a6cdj3.apps.googleusercontent.com" />
+    <!-- google sign in -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <title>Smart Writer</title>
@@ -57,11 +56,11 @@
                     </div>
                 </div>
                 <div class="sidebar-bottom">
-                    <div class="g-signin2" id="googleSignInButton" data-onsuccess="onSignIn" data-cookiepolicy="single_host_origin">
-                        <div class="left">
-                            <iconify-icon icon="logos:google-icon"></iconify-icon>Sign In
-                        </div>
+                    <div id="g_id_onload"
+                        data-client_id="712821347110-2uma4qc17qvav309ngmvcovdi0a6cdj3.apps.googleusercontent.com "
+                        data-callback="handleCredentialResponse">
                     </div>
+                    <div class="g_id_signin" data-type="standard"></div>
                     <button class="note-item" id="openAboutButton" onclick="openAbout()">
                         <div class="left">
                             <iconify-icon icon="ci:info"></iconify-icon>About
@@ -141,14 +140,6 @@
     </div>
     <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
     <script>
-        function onSignIn(googleUser) {
-            var profile = googleUser.getBasicProfile();
-            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-            console.log('Name: ' + profile.getName());
-            console.log('Image URL: ' + profile.getImageUrl());
-            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-        }
-
         const editor = new toastui.Editor({
             el: document.querySelector('#editor'),
             height: '100%',
