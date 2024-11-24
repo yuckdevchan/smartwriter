@@ -17,6 +17,8 @@
     <script src="https://unpkg.com/tippy.js@6"></script>
     <!-- google sign in -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <!-- jwt decode -->
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
 
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <title>Smart Writer</title>
@@ -141,7 +143,10 @@
     <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
     <script>
         function handleCredentialResponse(response) {
-            console.log(response.credential);
+            const token = response.credential;
+            const user = jwt_decode(token);
+            console.log(user);
+            alert(`Hello, ${user.name}`);
         }
     </script>
     <script>
