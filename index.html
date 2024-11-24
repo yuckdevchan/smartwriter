@@ -192,6 +192,7 @@
         }
 
         function signOut() {
+            console.log('Signing out');
             localStorage.removeItem('token');
             document.querySelector('.g_id_signin').style.display = 'block';
             document.querySelector('#accountButton').style.display = 'none';
