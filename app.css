@@ -39,6 +39,14 @@ body {
     gap: 0.25em;
 }
 
+.notes-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300&display=swap');
+
 .serif-heading {
     font-family: 'Merriweather', serif;
     font-size: 1.5em;
@@ -58,6 +66,7 @@ body {
     display: flex;
     flex-direction: row;
     align-items: center;
+    gap: 0.25em;
     border: none;
     font: inherit;
     color: inherit;
@@ -65,16 +74,14 @@ body {
     width: 100%;
 }
 
+.note-title {
+    padding: 0;
+    margin: 0;
+}
+
 .note-item:hover, #currentNote {
     background-color: #464646;
     cursor: default;
-}
-
-.note-item button {
-    border: none;
-    background-color: transparent;
-    color: inherit;
-    font: inherit;
 }
 
 .content {

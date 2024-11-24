@@ -14,11 +14,19 @@
     <div class="main-content">
         <div class="sidebar">
             <div class="sidebar-top">
-                <p class="serif-heading">Recent Notes</p>
+                <div class="notes-header">
+                    <p class="serif-heading">Recent Notes</p>
+                    <button class="action-button"><iconify-icon icon="ci:edit-pencil-01"></iconify-icon></button>
+                </div>
                 <div class="note-items">
-                    <button class="note-item"><iconify-icon icon="ci:plus"></iconify-icon>New Note</button>
-                    <button class="note-item" id="currentNote"></button>
-                    <button class="note-item">New Note</button>
+                    <button class="note-item" id="currentNote">
+                        <iconify-icon icon="ci:notebook"></iconify-icon>
+                        <p class="note-title"></p>
+                    </button>
+                    <button class="note-item">
+                        <iconify-icon icon="ci:notebook"></iconify-icon>
+                        <p class="note-title">New Note</p>
+                    </button>
                 </div>
             </div>
             <div class="sidebar-bottom">
@@ -29,6 +37,7 @@
             <div id="editor"></div>
             <div class="status-bar">
                 <p id="wordCount"></p>
+                <p id="characterCount"></p>
                 <!-- <div class="spellcheck"> -->
                     <!-- <input type="checkbox" id="spellcheckToggle" onchange="toggleSpellcheck(this)" checked> -->
                     <!-- <label for="spellcheckToggle">Check Spelling</label> -->
@@ -115,22 +124,30 @@
             document.querySelector('#wordCount').innerText = `${wordCount} words`;
         }
 
+        function updateCharacterCount() {
+            const content = editor.getMarkdown().trim();
+            const characterCount = content.replace(/\s/g, '').length;
+            document.querySelector('#characterCount').innerText = `${characterCount} characters`;
+        }
+
         function updateNoteTitle() {
             markdown = editor.getMarkdown();
             if ((markdown.startsWith("\\#") || markdown.startsWith("#"))) {
                 title = markdown.split("\n")[0].replace("#", "").trim();
-                document.querySelector('#currentNote').innerText = title;
+                document.querySelector('.note-title').innerText = title;
             } else {
-                document.querySelector('#currentNote').innerText = "New Note";
+                document.querySelector('.note-title').innerText = "New Note";
             }
         }
 
         editor.on('change', () => {
             updateWordCount();
+            updateCharacterCount();
             updateNoteTitle();
         });
 
         updateWordCount();
+        updateCharacterCount();
         updateNoteTitle();
     </script>
 </body>
