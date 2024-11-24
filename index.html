@@ -147,12 +147,21 @@
     </div>
     <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
     <script>
+        const token = localStorage.getItem('token');
+        if (token) {
+            const user = jwt_decode(token);
+            document.querySelector('.g_id_signin').style.display = 'none';
+            document.querySelector('#accountButton').style.display = 'block';
+            document.querySelector('#accountName').innerText = user.name;
+        }
+
         function handleCredentialResponse(response) {
             const token = response.credential;
             const user = jwt_decode(token);
             document.querySelector('.g_id_signin').style.display = 'none';
             document.querySelector('#accountButton').style.display = 'block';
             document.querySelector('#accountName').innerText = user.name;
+            localStorage.setItem('token', token);
         }
     </script>
     <script>
