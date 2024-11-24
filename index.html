@@ -190,6 +190,12 @@
                 placement: 'top',
             });
         }
+
+        function signOut() {
+            localStorage.removeItem('token');
+            document.querySelector('.g_id_signin').style.display = 'block';
+            document.querySelector('#accountButton').style.display = 'none';
+        }
     </script>
     <script>
         const editor = new toastui.Editor({
