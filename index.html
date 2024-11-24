@@ -195,6 +195,8 @@
             localStorage.removeItem('token');
             document.querySelector('.g_id_signin').style.display = 'block';
             document.querySelector('#accountButton').style.display = 'none';
+            document.querySelector('#accountPopup').style.opacity = '0';
+            document.querySelector('#accountPopup').style.pointerEvents = 'none';
         }
     </script>
     <script>
