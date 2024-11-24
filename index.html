@@ -156,15 +156,22 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
     <script>
-        document.querySelector('#accountButton').style.display = 'block';
-        document.querySelector('#accountName').innerText = user.given_name;
-        tippy('#accountButton', {
+        const token = localStorage.getItem('token');
+
+        if (token) {
+          // Token exists, user is already signed in
+          const user = jwt_decode(token);
+        
+          // Display user information and initialize Google Sign-In with silent sign-in
+          document.querySelector('.g_id_signin').style.display = 'none';
+          document.querySelector('#accountButton').style.display = 'block';
+          document.querySelector('#accountName').innerText = user.given_name;
+          tippy('#accountButton', {
             content: `Signed in as ${user.name}`,
             placement: 'top',
-        });
-
-        // Initialize Google Sign-In with the token
-        google.accounts.id.initialize({
+          });
+        
+          google.accounts.id.initialize({
             client_id: '712821347110-2uma4qc17qvav309ngmvcovdi0a6cdj3.apps.googleusercontent.com',
             callback: handleCredentialResponse,
             auto_select: true,
@@ -173,29 +180,30 @@
             state_cookie_domain: 'smartwriter.vercel.app',
             ux_mode: 'popup',
             itp_support: true,
-        });
-
-        // Prompt Google Sign-In to check if the user is already signed in
-        google.accounts.id.prompt((notification) => {
-            if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-                // Handle the case where the prompt is not displayed or skipped
-                console.log('Google Sign-In prompt not displayed or skipped');
-            }
-        });
-
-    function handleCredentialResponse(response) {
-        const token = response.credential;
-        const user = jwt_decode(token);
-        console.log("HELLO")
-        document.getElementById('accountName').innerText = user.given_name;
-        localStorage.setItem('token', token);
-        document.querySelector('.g_id_signin').style.display = 'none';
-        document.querySelector('#accountButton').style.display = 'block';
-        tippy('#accountButton', {
-            content: `Signed in as ${user.name}`,
-            placement: 'top',
-        });
-    }
+          });
+        
+          google.accounts.id.prompt('none'); // Attempt silent sign-in
+        } else {
+          // Token not found, initialize Google Sign-In
+          google.accounts.id.initialize({
+            // ... (your Google Sign-In configuration)
+          });
+        }
+    
+        function handleCredentialResponse(response) {
+            const token = response.credential;
+            const user = jwt_decode(token);
+          
+            // Store token and update UI
+            localStorage.setItem('token', token);
+            document.getElementById('accountName').innerText = user.given_name;
+            document.querySelector('.g_id_signin').style.display = 'none';
+            document.querySelector('#accountButton').style.display = 'block';
+            tippy('#accountButton', {
+              content: `Signed in as ${user.name}`,
+              placement: 'top',
+            });
+          }
     </script>
     <script>
         const editor = new toastui.Editor({
