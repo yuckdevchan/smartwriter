@@ -63,6 +63,11 @@
                         data-callback="handleCredentialResponse">
                     </div>
                     <div class="g_id_signin" data-type="standard"></div>
+                    <button class="note-item" id="accountButton" onclick="" style="display: none;">
+                        <div class="left">
+                            <iconify-icon icon="ci:user-02"></iconify-icon><span id="accountName"></span>
+                        </div>
+                    </button>
                     <button class="note-item" id="openAboutButton" onclick="openAbout()">
                         <div class="left">
                             <iconify-icon icon="ci:info"></iconify-icon>About
@@ -145,8 +150,9 @@
         function handleCredentialResponse(response) {
             const token = response.credential;
             const user = jwt_decode(token);
-            console.log(user);
-            alert(`Hello, ${user.name}`);
+            document.querySelector('.g_id_signin').style.display = 'none';
+            document.querySelector('#accountButton').style.display = 'block';
+            document.querySelector('#accountName').innerText = user.name;
         }
     </script>
     <script>
