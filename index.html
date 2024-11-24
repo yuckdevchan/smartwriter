@@ -7,9 +7,18 @@
     <link rel="stylesheet" href="app.css" />
     <link rel="stylesheet" href="editor.css" />
     <link rel="manifest" href="manifest.json">
+    <!-- iconify web component -->
     <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
-    <script src=" https://cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js "></script>
-    <link href=" https://cdn.jsdelivr.net/npm/highlightjs@9.16.2/styles/monokai-sublime.min.css " rel="stylesheet">
+    <!-- code syntax highlighting plugin -->
+    <script src=" https://cdn.jsdelivr.net/npm/@toast-ui/editor-plugin-code-syntax-highlight@3.1.0/dist/toastui-editor-plugin-code-syntax-highlight-all.min.js "></script>
+    <link href=" https://cdn.jsdelivr.net/npm/@toast-ui/editor-plugin-code-syntax-highlight@3.1.0/dist/toastui-editor-plugin-code-syntax-highlight.min.css " rel="stylesheet">
+    <!-- tippy js -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+    <!-- google platform -->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="712821347110-2uma4qc17qvav309ngmvcovdi0a6cdj3.apps.googleusercontent.com" />
+
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <title>Smart Writer</title>
 </head>
@@ -20,20 +29,35 @@
                 <div class="sidebar-top">
                     <div class="notes-header">
                         <p class="serif-heading">Recent Notes</p>
-                        <button class="action-button"><iconify-icon icon="ci:note-edit"></iconify-icon></button>
+                        <button class="action-button" id="newNoteButton"><iconify-icon icon="ci:note-edit"></iconify-icon></button>
                     </div>
                     <div class="note-items">
                         <button class="note-item" id="currentNote">
-                            <iconify-icon icon="ci:notebook"></iconify-icon>
-                            <p class="note-title"></p>
+                            <div class="left">
+                                <iconify-icon icon="ci:notebook"></iconify-icon>
+                                <p class="note-title"></p>
+                            </div>
+                            <div class="right">
+                                <div class="action-button tag-button">
+                                    <iconify-icon icon="ci:tag"></iconify-icon>
+                                </div>
+                            </div>
                         </button>
                         <button class="note-item">
-                            <iconify-icon icon="ci:notebook"></iconify-icon>
-                            <p class="note-title">New Note</p>
+                            <div class="left">
+                                <iconify-icon icon="ci:notebook"></iconify-icon>
+                                <p class="note-title">New Note</p>
+                            </div>
+                            <div class="right">
+                                <div class="action-button tag-button">
+                                    <iconify-icon icon="ci:tag"></iconify-icon>
+                                </div>
+                            </div>
                         </button>
                     </div>
                 </div>
                 <div class="sidebar-bottom">
+                    <div class="g-signin2" data-onsuccess="onSignIn" data-cookiepolicy="single_host_origin"></div>
                     <button class="note-item" id="openAboutButton" onclick="openAbout()"><iconify-icon icon="ci:info"></iconify-icon>About</button>
                     <button class="note-item" id="openSettingsButton" onclick="openSettings()"><iconify-icon icon="ci:settings"></iconify-icon>Settings</button>
                 </div>
@@ -42,10 +66,17 @@
         <div class="content">
             <div id="editor"></div>
             <div class="status-bar">
-                <div class="left"></div>
+                <div class="left">
+                    <div class="status-item">
+                        <iconify-icon icon="fluent:text-word-count-24-filled"></iconify-icon>
+                        <span id="wordCount"></span>
+                    </div>
+                    <div class="status-item action-button-large" style="height: 2em;" onclick="switchCharacterCountMode()">
+                        <iconify-icon icon="ci:arrow-left-right"></iconify-icon>
+                        <p id="characterCount"></p>
+                    </div>
+                </div>
                 <div class="right">
-                    <p id="wordCount"></p>
-                    <p id="characterCount"></p>
                 </div>
                 <!-- <div class="spellcheck"> -->
                     <!-- <input type="checkbox" id="spellcheckToggle" onchange="toggleSpellcheck(this)" checked> -->
@@ -54,7 +85,7 @@
             </div>
         </div>
     </div>
-    <div class="settings-modal" style="opacity: 0;">
+    <div class="settings-modal" style="opacity: 0; pointer-events: none;">
         <div class="settings-modal-content">
             <div class="settings-modal-header">
                 <h2>Settings</h2>
@@ -82,7 +113,7 @@
             </div>
         </div>
     </div>
-    <div class="about-modal" style="opacity: 0;">
+    <div class="about-modal" style="opacity: 0; pointer-events: none;">
         <div class="about-modal-content">
             <div class="about-modal-header">
                 <h2>About</h2>
@@ -90,11 +121,22 @@
             </div>
             <div class="about-content">
                 <p>Smart Writer is a sleek, minimalist and modern note-taking app.</p>
+                <div class="about-links">
+                    <button id="openGitHubButton" onclick="window.open('https://github.com/yuckdevchan/smartwriter', '_blank');" class="action-button"><iconify-icon icon="ci:github"></iconify-icon></button>
+                </div>
             </div>
         </div>
     </div>
     <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
     <script>
+        function onSignIn(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+            console.log('Name: ' + profile.getName());
+            console.log('Image URL: ' + profile.getImageUrl());
+            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+        }
+
         const editor = new toastui.Editor({
             el: document.querySelector('#editor'),
             height: '100%',
@@ -123,24 +165,28 @@
 
         function openSettings() {
             document.querySelector('.settings-modal').style.opacity = '1';
+            document.querySelector('.settings-modal').style.pointerEvents = 'auto';
             document.querySelector('.main-content').style.filter = 'brightness(0.5)';
             document.querySelector('.main-content').style.pointerEvents = 'none';
         }
 
         function closeSettings() {
             document.querySelector('.settings-modal').style.opacity = '0';
+            document.querySelector('.settings-modal').style.pointerEvents = 'none';
             document.querySelector('.main-content').style.filter = 'brightness(1)';
             document.querySelector('.main-content').style.pointerEvents = 'auto';
         }
 
         function openAbout() {
             document.querySelector('.about-modal').style.opacity = '1';
+            document.querySelector('.about-modal').style.pointerEvents = 'auto';
             document.querySelector('.main-content').style.filter = 'brightness(0.5)';
             document.querySelector('.main-content').style.pointerEvents = 'none';
         }
 
         function closeAbout() {
             document.querySelector('.about-modal').style.opacity = '0';
+            document.querySelector('.about-modal').style.pointerEvents = 'none';
             document.querySelector('.main-content').style.filter = 'brightness(1)';
             document.querySelector('.main-content').style.pointerEvents = 'auto';
         }
@@ -160,10 +206,13 @@
             document.querySelector('#wordCount').innerText = `${wordCount} words`;
         }
 
+        function switchCharacterCountMode() {
+        }
+
         function updateCharacterCount() {
             const content = editor.getMarkdown().trim();
             const characterCount = content.replace(/\s/g, '').length;
-            document.querySelector('#characterCount').innerText = `${characterCount} characters`;
+            document.querySelector('#characterCount').innerText = `${characterCount} characters excl. spaces`;
         }
 
         function updateNoteTitle() {
@@ -189,6 +238,17 @@
         updateWordCount();
         updateCharacterCount();
         updateNoteTitle();
+    </script>
+    <script>
+        tippy("#newNoteButton", {
+            content: "New Note",
+            placement: "right",
+        });
+
+        tippy(".tag-button", {
+            content: "Edit Tags",
+            placement: "right",
+        });
     </script>
 </body>
 </html>

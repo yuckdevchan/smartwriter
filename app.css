@@ -20,8 +20,8 @@ body {
 }
 
 .sidebar {
-    /* background-color: #292929; */
-    background: linear-gradient(90deg, #292929, #292929, #292929, #292929, #292929, #292929, #292929, #292929, #292929, #292929, #292929, #292929, #1E1E1E);
+    background-color: #292929;
+    /* background: linear-gradient(90deg, #292929, #292929, #292929, #292929, #292929, #292929, #292929, #292929, #292929, #292929, #292929, #292929, #1E1E1E); */
     padding: 0.5em;
     width: 17em;
     display: flex;
@@ -30,7 +30,8 @@ body {
 }
 
 .sidebar-content {
-    width: 92%;
+    width: 100%;
+    /* width: 92%; */
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -76,12 +77,25 @@ body {
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
     gap: 0.25em;
     border: none;
     font: inherit;
     color: inherit;
     background-color: #292929;
-    width: 90%;
+    width: 100%;
+    /* width: 90%; */
+}
+
+.note-item .left, .note-item .right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.25em;
+}
+
+.note-item .right {
+    margin-right: 0.25em;
 }
 
 .note-title {
@@ -105,6 +119,7 @@ body {
     background-color: #1E1E1E;
     display: flex;
     flex-direction: row;
+    /* width: 100%; */
     justify-content: space-between;
     width: calc(100% - 1em);
     align-items: center;
@@ -112,16 +127,25 @@ body {
     user-select: none;
 }
 
-.status-bar .right {
+.status-bar .right, .status-bar .left {
     display: flex;
     flex-direction: row;
+    align-items: center;
     gap: 0.5em;
     padding-right: 1em;
 }
 
+.status-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.25em;
+}
+
 .toastui-editor-defaultUI {
     border: none !important;
-    /* overflow: hidden; */
+    overflow: hidden;
+    border-radius: 0;
 }
 
 .toastui-editor-defaultUI-toolbar {
@@ -241,6 +265,23 @@ body {
 
 .action-button:active::before {
     background-color: #4a4a4a; /* Darker color when clicked */
+}
+
+.action-button-large {
+    position: relative;
+    border: none;
+    background-color: transparent;
+    color: white;
+    font: inherit;
+    z-index: 1; /* Ensure the button is above the pseudo-element */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.5em;
+}
+
+.action-button-large:hover {
+    background-color: #464646;
 }
 
 .settings-modal .large-button {
