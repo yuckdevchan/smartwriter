@@ -166,8 +166,8 @@
                 content: `Signed in as ${user.name}`,
                 placement: 'top',
             });
-    
-            // Initialize Google Sign-In with the token
+        } else {
+            // Initialize Google Sign-In
             google.accounts.id.initialize({
                 client_id: '712821347110-2uma4qc17qvav309ngmvcovdi0a6cdj3.apps.googleusercontent.com',
                 callback: handleCredentialResponse,
@@ -179,7 +179,7 @@
                 itp_support: true,
             });
         }
-    
+        
         function handleCredentialResponse(response) {
             const token = response.credential;
             const user = jwt_decode(token);
