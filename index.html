@@ -161,22 +161,29 @@
             const user = jwt_decode(token);
             document.querySelector('.g_id_signin').style.display = 'none';
             document.querySelector('#accountButton').style.display = 'block';
-            document.querySelector('#accountName').innerText = user.name;
+            document.querySelector('#accountName').innerText = `${user.name.split(' ')[0]}`;
             tippy('#accountButton', {
                 content: `Signed in as ${user.name}`,
                 placement: 'top',
             });
+    
+            // Initialize Google Sign-In with the token
+        } else {
+            // Initialize Google Sign-In
+            google.accounts.id.initialize({
+                client_id: '712821347110-2uma4qc17qvav309ngmvcovdi0a6cdj3.apps.googleusercontent.com',
+                callback: handleCredentialResponse,
+@@ -179,28 +179,28 @@
+                itp_support: true,
+            });
         }
-
+    
+        
         function handleCredentialResponse(response) {
             const token = response.credential;
             const user = jwt_decode(token);
-            document.querySelector('.g_id_signin').style.display = 'none';
-            document.querySelector('#accountButton').style.display = 'block';
-            document.querySelector('#accountName').innerText = user.name;
-            localStorage.setItem('token', token);
             console.log(user);
-            document.getElementById('accountName').innerText = `Hello, ${user.name.split(' ')[0]}`;
+            document.getElementById('accountName').innerText = `${user.name.split(' ')[0]}`;
             tippy('#accountButton', {
                 content: `Signed in as ${user.name}`,
                 placement: 'top',
