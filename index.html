@@ -166,6 +166,8 @@
                 content: `Signed in as ${user.name}`,
                 placement: 'top',
             });
+            // Cancel the One Tap prompt
+            google.accounts.id.cancel();
         } else {
             // Initialize Google Sign-In
             google.accounts.id.initialize({
@@ -178,6 +180,8 @@
                 ux_mode: 'popup',
                 itp_support: true,
             });
+            // Prompt the user to sign in
+            google.accounts.id.prompt();
         }
         
         function handleCredentialResponse(response) {
