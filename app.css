@@ -297,3 +297,14 @@ body {
     border-radius: 0.5em;
     color: white;
 }
+
+#accountPopup {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #1E1E1E;
+    padding: 0.5em;
+    width: 12em;
+    border: 0.1em solid #656565;
+    border-radius: 0.5em;
+}
