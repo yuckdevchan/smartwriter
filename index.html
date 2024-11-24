@@ -156,41 +156,42 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
     <script>
-        // Initialize Google Sign-In
-        google.accounts.id.initialize({
-            client_id: 'YOUR_CLIENT_ID',
-            callback: handleCredentialResponse,
-        });
-
-        function handleCredentialResponse(response) {
-            const user = jwt_decode(response.credential);
-            // Store the token
-            localStorage.setItem('token', response.credential);
-            // Update UI elements
+        const token = localStorage.getItem('token');
+        if (token) {
+            const user = jwt_decode(token);
             document.querySelector('.g_id_signin').style.display = 'none';
             document.querySelector('#accountButton').style.display = 'block';
-            document.querySelector('#accountName').innerText = user.name;
+            document.querySelector('#accountName').innerText = `${user.name.split(' ')[0]}`;
             tippy('#accountButton', {
-            content: `Signed in as ${user.name}`,
-            placement: 'top',
+                content: `Signed in as ${user.name}`,
+                placement: 'top',
             });
-        }
-
-        // Check if user is already signed in
-        const token = localStorage.getItem('token');
-        if (!token) {
+            // Cancel the One Tap prompt
+            google.accounts.id.cancel();
+        } else {
+            // Initialize Google Sign-In
+            google.accounts.id.initialize({
+                client_id: '712821347110-2uma4qc17qvav309ngmvcovdi0a6cdj3.apps.googleusercontent.com',
+                callback: handleCredentialResponse,
+                auto_select: true,
+                login_uri: 'https://smartwriter.vercel.app/',
+                context: 'signin',
+                state_cookie_domain: 'smartwriter.vercel.app',
+                ux_mode: 'popup',
+                itp_support: true,
+            });
             // Prompt the user to sign in
             google.accounts.id.prompt();
-        } else {
-            // User is already signed in
+        }
+        
+        function handleCredentialResponse(response) {
+            const token = response.credential;
             const user = jwt_decode(token);
-            // Update UI elements
-            document.querySelector('.g_id_signin').style.display = 'none';
-            document.querySelector('#accountButton').style.display = 'block';
-            document.querySelector('#accountName').innerText = user.name;
+            console.log(user);
+            document.getElementById('accountName').innerText = `${user.name.split(' ')[0]}`;
             tippy('#accountButton', {
-            content: `Signed in as ${user.name}`,
-            placement: 'top',
+                content: `Signed in as ${user.name}`,
+                placement: 'top',
             });
         }
     </script>
