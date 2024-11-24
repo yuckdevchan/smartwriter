@@ -63,7 +63,7 @@ body {
     gap: 0.5em;
 }
 
-.note-item {
+.note-item, .g-signin2 {
     border-radius: 0.5em;
     padding: 0.5em;
     display: flex;
@@ -79,14 +79,14 @@ body {
     /* width: 90%; */
 }
 
-.note-item .left, .note-item .right {
+.note-item .left, .note-item .right, .g-signin2 .left, .g-signin2 .right {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 0.5em;
 }
 
-.note-item .right {
+.note-item .right, .g-signin2 .right {
     margin-right: 0.25em;
 }
 
@@ -95,7 +95,7 @@ body {
     margin: 0;
 }
 
-.note-item:hover, #currentNote {
+.note-item:hover, #currentNote, .gsignin2:hover {
     background-color: #464646;
     cursor: default;
 }
