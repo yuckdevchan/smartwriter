@@ -42,14 +42,6 @@ body {
     margin-bottom: 0.5em;
 }
 
-#openSettingsButton, #openAboutButton, #googleSignInButton {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 0.25em;
-}
-
 .notes-header {
     display: flex;
     flex-direction: row;
@@ -91,7 +83,7 @@ body {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 0.25em;
+    gap: 0.5em;
 }
 
 .note-item .right {
