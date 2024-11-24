@@ -178,6 +178,9 @@
                 ux_mode: 'popup',
                 itp_support: true,
             });
+
+            // Prompt Google Sign-In to check if the user is already signed in
+            google.accounts.id.prompt();
         }
     
         function handleCredentialResponse(response) {
@@ -192,15 +195,6 @@
                 content: `Signed in as ${user.name}`,
                 placement: 'top',
             });
-        }
-
-        function signOut() {
-            console.log('Signing out');
-            localStorage.removeItem('token');
-            document.querySelector('.g_id_signin').style.display = 'block';
-            document.querySelector('#accountButton').style.display = 'none';
-            document.querySelector('#accountPopup').style.opacity = '0';
-            document.querySelector('#accountPopup').style.pointerEvents = 'none';
         }
     </script>
     <script>
