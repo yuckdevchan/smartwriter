@@ -185,6 +185,9 @@
             const user = jwt_decode(token);
             console.log("HELLO")
             document.getElementById('accountName').innerText = user.given_name;
+            localStorage.setItem('token', token);
+            document.querySelector('.g_id_signin').style.display = 'none';
+            document.querySelector('#accountButton').style.display = 'block';
             tippy('#accountButton', {
                 content: `Signed in as ${user.name}`,
                 placement: 'top',
