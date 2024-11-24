@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+    <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet" href="editor.css" />
+    <link rel="manifest" href="manifest.json">
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+    <title>Smart Writer</title>
+</head>
+<body>
+    <div class="main-content">
+        <div class="sidebar">
+            <div class="sidebar-top">
+                <p class="serif-heading">Recent Notes</p>
+                <div class="note-items">
+                    <button class="note-item"><iconify-icon icon="ci:plus"></iconify-icon>New Note</button>
+                    <button class="note-item" id="currentNote"></button>
+                    <button class="note-item">New Note</button>
+                </div>
+            </div>
+            <div class="sidebar-bottom">
+                <button class="note-item" id="openSettingsButton" onclick="openSettings()"><iconify-icon icon="ci:settings"></iconify-icon>Settings</button>
+            </div>
+        </div>
+        <div class="content">
+            <div id="editor"></div>
+            <div class="status-bar">
+                <p id="wordCount"></p>
+                <!-- <div class="spellcheck"> -->
+                    <!-- <input type="checkbox" id="spellcheckToggle" onchange="toggleSpellcheck(this)" checked> -->
+                    <!-- <label for="spellcheckToggle">Check Spelling</label> -->
+                <!-- </div> -->
+            </div>
+        </div>
+        <div class="settings-modal" style="display: none;">
+            <div class="settings-modal-content">
+                <div class="settings-modal-header">
+                    <h2>Settings</h2>
+                    <button id="closeSettingsButton" class="action-button" onclick="closeSettings()"><iconify-icon icon="ci:close-lg"></iconify-icon></button>
+                </div>
+                <div class="settings-content">
+                    <div class="settings-modal-section">
+                        <h3>Font Size</h3>
+                        <input type="range" min="0.5" max="2" step="0.1" value="1" id="scaleSlider">
+                    </div>
+                    <div class="settings-modal-section">
+                        <h3>Theme</h3>
+                        <select id="themeSelect">
+                            <option value="light">Light</option>
+                            <option value="dark">Dark</option>
+                        </select>
+                    </div>
+                    <div class="settings-modal-section">
+                        <h3>Editor Type</h3>
+                        <select id="editTypeSelect">
+                            <option value="markdown">Markdown</option>
+                            <option value="wysiwyg">WYSIWYG</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+    <script>
+        const editor = new toastui.Editor({
+            el: document.querySelector('#editor'),
+            height: '100%',
+            initialValue: "# New Note (1)",
+            initialEditType: 'wysiwyg',
+        });
+
+        // add a new toastui-editor-toolbar-group to the toolbar
+        newToolbarGroup = `
+        <div class="toastui-editor-toolbar-group">
+            <!-- scale slider -->
+            <div style="display: flex; flex-direction: row; align-items: center; justify-content: center;">
+                <p style="margin-right: 0.25em;">Scale</p>
+                <input type="range" min="0.5" max="2" step="0.1" value="1" id="scaleSlider">
+            </div>
+        </div>
+        `;
+        // newToolbarGroupElement = document.querySelector('.toastui-editor-defaultUI-toolbar').insertAdjacentHTML('beforeend', newToolbarGroup);
+
+        // document.querySelector('#scaleSlider').addEventListener('input', (e) => {
+        //     const elements = document.querySelectorAll('.toastui-editor-contents *');
+        //     elements.forEach(element => {
+        //         element.style.setProperty('font-size', `${e.target.value}em`, 'important');
+        //     });
+        // });
+
+        function openSettings() {
+            document.querySelector('.settings-modal').style.display = 'block';
+        }
+
+        function closeSettings() {
+            document.querySelector('.settings-modal').style.display = 'none';
+        }
+
+        function toggleSpellcheck(e) {
+            const elements = document.querySelectorAll('.toastui-editor-contents *');
+            let spellcheck = e.checked;
+            elements.forEach(element => {
+                element.spellcheck = spellcheck;
+            });
+        }
+        
+        function updateWordCount() {
+            const content = editor.getMarkdown().trim();
+            const words = content.split(/\s+/).filter(word => word.match(/[a-zA-Z0-9]/));
+            const wordCount = words.length;
+            document.querySelector('#wordCount').innerText = `${wordCount} words`;
+        }
+
+        function updateNoteTitle() {
+            markdown = editor.getMarkdown();
+            if ((markdown.startsWith("\\#") || markdown.startsWith("#"))) {
+                title = markdown.split("\n")[0].replace("#", "").trim();
+                document.querySelector('#currentNote').innerText = title;
+            } else {
+                document.querySelector('#currentNote').innerText = "New Note";
+            }
+        }
+
+        editor.on('change', () => {
+            updateWordCount();
+            updateNoteTitle();
+        });
+
+        updateWordCount();
+        updateNoteTitle();
+    </script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+    "name": "Smart Writer",
+    "start_url": "/",
+    "display": "standalone",
+    "prefer_related_applications": false,
+    "icons": [
+      {
+        "src": "icons/512.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      }
+    ]
+  }
+  
