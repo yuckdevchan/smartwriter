@@ -189,7 +189,7 @@ body {
     background-color: #464646;
 }
 
-.settings-modal, .about-modal {
+#settingsModal, .about-modal {
     user-select: none;
     position: fixed;
     top: 50%;
@@ -209,14 +209,14 @@ body {
     transition: opacity 0.15s ease;
 }
 
-.settings-modal-header, .about-modal-header {
+#settingsModal-header, .about-modal-header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
 }
 
-.settings-modal select {
+#settingsModal select {
     background-color: #1E1E1E;
     color: white;
     border: 0.1em solid #656565;
@@ -276,7 +276,7 @@ body {
     background-color: #464646;
 }
 
-.settings-modal .large-button {
+#settingsModal .large-button {
     background-color: #1E1E1E;
     color: white;
     border: 0.1em solid #656565;
@@ -285,7 +285,7 @@ body {
     font: inherit;
 }
 
-.settings-modal input[type="range"] {
+#settingsModal input[type="range"] {
     -webkit-appearance: none;
     width: 100%;
     height: 0.5em;

@@ -109,7 +109,7 @@
             </div>
         </div>
     </div>
-    <div class="settings-modal" style="opacity: 0; pointer-events: none;">
+    <div id="settingsModal" style="opacity: 0; pointer-events: none;">
         <div class="settings-modal-content">
             <div class="settings-modal-header">
                 <h2>Settings</h2>
@@ -137,7 +137,7 @@
             </div>
         </div>
     </div>
-    <div class="about-modal" style="opacity: 0; pointer-events: none;">
+    <div class="#aboutModal" style="opacity: 0; pointer-events: none;">
         <div class="about-modal-content">
             <div class="about-modal-header">
                 <h2>About</h2>
@@ -264,29 +264,29 @@
         }
 
         function openSettings() {
-            document.querySelector('.settings-modal').style.opacity = '1';
-            document.querySelector('.settings-modal').style.pointerEvents = 'auto';
+            document.querySelector('#settingsModal').style.opacity = '1';
+            document.querySelector('#settingsModal').style.pointerEvents = 'auto';
             document.querySelector('.main-content').style.filter = 'brightness(0.5)';
             document.querySelector('.main-content').style.pointerEvents = 'none';
         }
 
         function closeSettings() {
-            document.querySelector('.settings-modal').style.opacity = '0';
-            document.querySelector('.settings-modal').style.pointerEvents = 'none';
+            document.querySelector('#settingsModal').style.opacity = '0';
+            document.querySelector('#settingsModal').style.pointerEvents = 'none';
             document.querySelector('.main-content').style.filter = 'brightness(1)';
             document.querySelector('.main-content').style.pointerEvents = 'auto';
         }
 
         function openAbout() {
-            document.querySelector('.about-modal').style.opacity = '1';
-            document.querySelector('.about-modal').style.pointerEvents = 'auto';
+            document.querySelector('#aboutModal').style.opacity = '1';
+            document.querySelector('#aboutModal').style.pointerEvents = 'auto';
             document.querySelector('.main-content').style.filter = 'brightness(0.5)';
             document.querySelector('.main-content').style.pointerEvents = 'none';
         }
 
         function closeAbout() {
-            document.querySelector('.about-modal').style.opacity = '0';
-            document.querySelector('.about-modal').style.pointerEvents = 'none';
+            document.querySelector('#aboutModal').style.opacity = '0';
+            document.querySelector('#aboutModal').style.pointerEvents = 'none';
             document.querySelector('.main-content').style.filter = 'brightness(1)';
             document.querySelector('.main-content').style.pointerEvents = 'auto';
         }
