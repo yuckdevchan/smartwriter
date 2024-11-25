@@ -153,21 +153,34 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
     <script>
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+    
         function handleCredentialResponse(response) {
-            // Set a cookie with the JWT ID token
             document.cookie = "id_token=" + response.credential + "; path=/; max-age=3600; secure; sameSite=Lax";
+            // Reload the page or proceed with logged-in user actions
         }
     
         window.onload = function () {
-            google.accounts.id.initialize({
-                client_id: "712821347110-2uma4qc17qvav309ngmvcovdi0a6cdj3.apps.googleusercontent.com",
-                callback: handleCredentialResponse
-            });
-            google.accounts.id.renderButton(
-                document.getElementById("googleLoginButton"),
-                { theme: "outline", size: "large" }
-            );
-            google.accounts.id.prompt();
+            const id_token = getCookie("id_token");
+            if (!id_token) {
+                google.accounts.id.initialize({
+                    client_id: "712821347110-2uma4qc17qvav309ngmvcovdi0a6cdj3.apps.googleusercontent.com",
+                    callback: handleCredentialResponse
+                });
+                google.accounts.id.renderButton(
+                    document.getElementById("googleLoginButton"),
+                    { theme: "outline", size: "large" }
+                );
+                google.accounts.id.prompt();
+            } else {
+                // User is already logged in
+                console.log("User is already logged in");
+                // Proceed with your app logic for logged-in users
+            }
         }
     </script>
     <script>
