@@ -191,7 +191,7 @@ body {
     background-color: #464646;
 }
 
-#settingsModal, #about-modal {
+#settingsModal, #aboutModal {
     user-select: none;
     position: fixed;
     top: 50%;
