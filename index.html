@@ -319,8 +319,13 @@
 
         function updateCharacterCount() {
             const content = editor.getMarkdown().trim();
-            const characterCount = content.replace(/\s/g, '').length;
-            document.querySelector('#characterCount').innerText = `${characterCount} characters excl. spaces`;
+            const characterCount = document.querySelector('#characterCount');
+            const characterCountMode = characterCount.innerText.includes('characters');
+            if (characterCountMode) {
+                characterCount.innerText = `${content.length} characters incl. spaces`;
+            } else {
+                characterCount.innerText = `${content.replace(/\s/g, '').length} characters excl. spaces`;
+            }
         }
 
         function updateNoteTitle() {
