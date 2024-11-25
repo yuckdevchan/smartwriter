@@ -177,6 +177,7 @@
             document.querySelector('#accountName').innerText = decoded.given_name;
             document.querySelector('#accountButton img').src = decoded.picture;
             accountButton.style.display = 'block';
+            document.getElementById("googleLoginButton").style.display = 'none';
         }
 
         function signOut() {
