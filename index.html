@@ -58,10 +58,7 @@
                     </div>
                 </div>
                 <div class="sidebar-bottom">
-                    <div id="g_id_onload"
-                        data-client_id="712821347110-2uma4qc17qvav309ngmvcovdi0a6cdj3.apps.googleusercontent.com"
-                        data-callback="handleCredentialResponse">
-                    </div>
+                    <div id="googleLoginButton"></div>
                     <div class="g_id_signin" data-type="standard"></div>
                     <button class="note-item" id="accountButton" onclick="openAccountPopup()" style="display: none;">
                         <div class="left">
@@ -156,40 +153,20 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
     <script>
-        const token = localStorage.getItem('token');
-        if (token) {
-            const user = jwt_decode(token);
-            document.querySelector('.g_id_signin').style.display = 'none';
-            document.querySelector('#accountButton').style.display = 'block';
-            document.querySelector('#accountName').innerText = `${user.name.split(' ')[0]}`;
-            tippy('#accountButton', {
-                content: `Signed in as ${user.name}`,
-                placement: 'top',
-            });
-    
-            // Initialize Google Sign-In with the token
-            google.accounts.id.initialize({
-                client_id: '712821347110-2uma4qc17qvav309ngmvcovdi0a6cdj3.apps.googleusercontent.com',
-                callback: handleCredentialResponse,
-                auto_select: true,
-                login_uri: 'https://smartwriter.vercel.app/',
-                context: 'signin',
-                state_cookie_domain: 'smartwriter.vercel.app',
-                ux_mode: 'popup',
-                itp_support: true,
-            });
-        }
-
         function handleCredentialResponse(response) {
-            const token = response.credential;
-            const user = jwt_decode(token);
-            console.log(user);
-            document.getElementById('accountName').innerText = `${user.name.split(' ')[0]}`;
-            tippy('#accountButton', {
-                content: `Signed in as ${user.name}`,
-                placement: 'top',
+            console.log("Encoded JWT ID token: " + response.credential);
+          }
+          window.onload = function () {
+            google.accounts.id.initialize({
+              client_id: "712821347110-2uma4qc17qvav309ngmvcovdi0a6cdj3.apps.googleusercontent.com",
+              callback: handleCredentialResponse
             });
-        }
+            google.accounts.id.renderButton(
+              document.getElementById("googleLoginButton"),
+              { theme: "outline", size: "large" }
+            );
+            google.accounts.id.prompt();
+          }
     </script>
     <script>
         const editor = new toastui.Editor({
