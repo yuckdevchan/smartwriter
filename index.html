@@ -181,7 +181,8 @@
                 console.log("User is already logged in");
                 accountButton = document.querySelector('#accountButton');
                 document.querySelector('#accountName').innerText = decoded.given_name;
-                accountButton.style.display = 'block';
+                accountButton.style.opacity = '1';
+                accountButton.style.pointerEvents = 'auto';
                 // Proceed with your app logic for logged-in users
             }
         }
