@@ -174,7 +174,13 @@
             // Optionally reload the page
             location.reload();
         }
-    
+
+        function signOut() {
+            document.cookie = "id_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; secure; sameSite=Lax";
+            google.accounts.id.disableAutoSelect();
+            location.reload();
+        }
+
         window.onload = function () {
             const id_token = getCookie("id_token");
             if (!id_token) {
