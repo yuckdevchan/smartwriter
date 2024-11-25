@@ -171,10 +171,12 @@
         }
     
         function handleCredentialResponse(response) {
-            // Store the token in a cookie
             document.cookie = "id_token=" + response.credential + "; path=/; max-age=3600; secure; sameSite=Lax";
-            // Optionally reload the page
-            location.reload();
+            const accountButton = document.querySelector('#accountButton');
+            const decoded = parseJwt(response.credential);
+            document.querySelector('#accountName').innerText = decoded.given_name;
+            document.querySelector('#accountButton img').src = decoded.picture;
+            accountButton.style.display = 'block';
         }
 
         function signOut() {
