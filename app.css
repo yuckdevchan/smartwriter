@@ -308,3 +308,9 @@ body {
     border: 0.1em solid #656565;
     border-radius: 0.5em;
 }
+
+#googleLoginButon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
