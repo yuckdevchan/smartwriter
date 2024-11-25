@@ -178,6 +178,10 @@
             document.querySelector('#accountButton img').src = decoded.picture;
             accountButton.style.display = 'block';
             document.getElementById("googleLoginButton").style.display = 'none';
+            tippy("#accountButton", {
+                content: "Signed in as " + decoded.name + " (" + decoded.email + ")",
+                placement: "top",
+            });
         }
 
         function signOut() {
@@ -205,6 +209,10 @@
                 document.querySelector('#accountName').innerText = decoded.given_name;
                 document.querySelector('#accountButton img').src = decoded.picture;
                 accountButton.style.display = 'block';
+                tippy("#accountButton", {
+                    content: "Signed in as " + decoded.name + " (" + decoded.email + ")",
+                    placement: "top",
+                });
             }
         }
     </script>
