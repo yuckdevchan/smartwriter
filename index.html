@@ -62,7 +62,9 @@
                     <div class="g_id_signin" data-type="standard"></div>
                     <button class="note-item" id="accountButton" onclick="openAccountPopup()" style="display: none;">
                         <div class="left">
-                            <iconify-icon icon="ci:user-02"></iconify-icon><span id="accountName"></span>
+                            <!-- <iconify-icon icon="ci:user-02"></iconify-icon> -->
+                            <img>
+                            <span id="accountName"></span>
                         </div>
                     </button>
                     <div id="accountPopup" style="opacity: 0; pointer-events: none;">
@@ -198,6 +200,7 @@
                 const decoded = parseJwt(id_token);
                 const accountButton = document.querySelector('#accountButton');
                 document.querySelector('#accountName').innerText = decoded.given_name;
+                document.querySelector('#accountButton img').src = decoded.picture;
                 accountButton.style.display = 'block';
             }
         }
