@@ -159,16 +159,27 @@
             if (parts.length === 2) return parts.pop().split(';').shift();
         }
     
+        // Function to decode JWT
+        function parseJwt (token) {
+            const base64Url = token.split('.')[1];
+            const base64 = decodeURIComponent(atob(base64Url).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+            return JSON.parse(base64);
+        }
+    
         function handleCredentialResponse(response) {
+            // Store the token in a cookie
             document.cookie = "id_token=" + response.credential + "; path=/; max-age=3600; secure; sameSite=Lax";
-            // Reload the page or proceed with logged-in user actions
+            // Optionally reload the page
+            location.reload();
         }
     
         window.onload = function () {
             const id_token = getCookie("id_token");
             if (!id_token) {
                 google.accounts.id.initialize({
-                    client_id: "712821347110-2uma4qc17qvav309ngmvcovdi0a6cdj3.apps.googleusercontent.com",
+                    client_id: "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com",
                     callback: handleCredentialResponse
                 });
                 google.accounts.id.renderButton(
@@ -177,8 +188,9 @@
                 );
                 google.accounts.id.prompt();
             } else {
-                console.log("User is already logged in");
-                accountButton = document.querySelector('#accountButton');
+                // Decode the JWT to get user info
+                const decoded = parseJwt(id_token);
+                const accountButton = document.querySelector('#accountButton');
                 document.querySelector('#accountName').innerText = decoded.given_name;
                 accountButton.style.display = 'block';
             }
