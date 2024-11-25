@@ -211,7 +211,7 @@ body {
     transition: opacity 0.15s ease;
 }
 
-#settingsModal-header, .about-modal-header {
+.settingsModal-header, .about-modal-header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
