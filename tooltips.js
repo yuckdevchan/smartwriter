@@ -23,7 +23,7 @@ tippy("#googleLoginButton", {
     placement: "top",
 });
 
-tippy("#toggleThemeButton", {
+tippy(".toggle-theme-button", {
     content: "Toggle Theme",
     placement: "right",
 })

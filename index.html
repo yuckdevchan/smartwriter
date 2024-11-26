@@ -8,9 +8,6 @@
     <link rel="manifest" href="manifest.json">
     <!-- iconify web component -->
     <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
-    <!-- code syntax highlighting plugin -->
-    <script src=" https://cdn.jsdelivr.net/npm/@toast-ui/editor-plugin-code-syntax-highlight@3.1.0/dist/toastui-editor-plugin-code-syntax-highlight-all.min.js "></script>
-    <link href=" https://cdn.jsdelivr.net/npm/@toast-ui/editor-plugin-code-syntax-highlight@3.1.0/dist/toastui-editor-plugin-code-syntax-highlight.min.css " rel="stylesheet">
     <!-- tippy js -->
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://unpkg.com/tippy.js@6"></script>
@@ -75,9 +72,9 @@
                             </div>
                         </button>
                     </div>
-                    <button class="note-item" id="toggleThemeButton" onclick="toggleTheme()">
+                    <button class="note-item" class="toggle-theme-button" onclick="toggleTheme()">
                         <div class="left">
-                            <iconify-icon icon="ci:moon" id="themeIcon"></iconify-icon><span id="themeText">Dark Mode</span>
+                            <iconify-icon icon="ci:moon" class="theme-icon"></iconify-icon><span class="theme-text"></span>
                         </div>
                     </button>
                     <button class="note-item" id="openAboutButton" onclick="openAbout()">
@@ -123,22 +120,14 @@
             </div>
             <div class="settings-content">
                 <div class="settings-modal-section">
-                    <h3>Font Size</h3>
-                    <input type="range" min="0.5" max="2" step="0.1" value="1" id="scaleSlider">
-                </div>
-                <div class="settings-modal-section">
                     <h3>Theme</h3>
-                    <select id="themeSelect">
-                        <option value="dark">Dark</option>
-                        <option value="light">Light</option>
-                    </select>
+                    <button class="theme-button settings-button" onclick="toggleTheme()">
+                        <iconify-icon icon="ci:sun" class="theme-icon"></iconify-icon><span class="theme-text"></span>
+                    </button>
                 </div>
                 <div class="settings-modal-section">
-                    <h3>Editor Type</h3>
-                    <select id="editTypeSelect">
-                        <option value="markdown">Markdown</option>
-                        <option value="wysiwyg">WYSIWYG</option>
-                    </select>
+                    <h3>Editor Content Scale</h3>
+                    <input type="range" min="0.5" max="2" step="0.1" value="1.3" id="scaleSlider">
                 </div>
             </div>
         </div>
@@ -157,7 +146,6 @@
             </div>
         </div>
     </div>
-    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="accountManagement.js"></script>

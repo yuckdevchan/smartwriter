@@ -85,6 +85,10 @@ function updateNoteTitle() {
     }
 }
 
+document.querySelector('#scaleSlider').addEventListener('input', function() {
+    document.querySelector('#editor').style.zoom = this.value;
+});
+
 quill.on('text-change', function(delta, oldDelta, source) {
     updateWordCount();
     updateCharacterCount();

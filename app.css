@@ -103,6 +103,31 @@ body {
     cursor: default;
 }
 
+.note-item:active {
+    background-color: var(--note-item-color-active);
+}
+
+.settings-button {
+    border-radius: 0.5em;
+    padding: 0.5em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.25em;
+    border: none;
+    font: inherit;
+    color: inherit;
+    background-color: var(--note-item-color-selected);
+}
+
+.settings-button:hover {
+    background-color: var(--note-item-color-active);
+}
+
+.settings-button:active {
+    filter: brightness(0.9);
+}
+
 .content {
     display: flex;
     flex-direction: column;
@@ -200,7 +225,7 @@ body {
     transform: translate(-50%, -50%);
     min-width: 30em;
     max-width: 100vw;
-    background-color: #292929;
+    background-color: var(--modal-color);
     padding-left: 1em;
     padding-right: 1em;
     padding-bottom: 1.25em;
@@ -280,8 +305,8 @@ body {
 }
 
 .settings-modal .large-button {
-    background-color: #1E1E1E;
-    color: white;
+    background-color: var(--buttons-and-dropdowns);
+    color: var(--text-color);
     border: 0.1em solid #656565;
     border-radius: 0.5em;
     padding: 0.5em;
@@ -293,6 +318,7 @@ body {
     width: 100%;
     height: 0.5em;
     border-radius: 0.5em;
+    background-color: var(--buttons-and-dropdowns);
 }
 
 #accountPopup {
