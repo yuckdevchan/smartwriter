@@ -5,8 +5,6 @@ body {
     padding: 0;
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
-    display: flex;
-    overflow: hidden;
 }
 
 ::selection {
@@ -65,7 +63,7 @@ body {
     gap: 0.5em;
 }
 
-.note-item, .g-signin2 {
+.note-item {
     border-radius: 0.5em;
     padding: 0.5em;
     display: flex;
@@ -78,7 +76,6 @@ body {
     color: inherit;
     background-color: #292929;
     width: 100%;
-    /* width: 90%; */
 }
 
 .note-item .left, .note-item .right, .g-signin2 .left, .g-signin2 .right {
@@ -97,7 +94,7 @@ body {
     margin: 0;
 }
 
-.note-item:hover, #currentNote, .gsignin2:hover {
+.note-item:hover, #currentNote {
     background-color: #464646;
     cursor: default;
 }
@@ -191,7 +188,7 @@ body {
     background-color: #464646;
 }
 
-#settingsModal, #aboutModal {
+.settings-modal, .about-modal {
     user-select: none;
     position: fixed;
     top: 50%;
@@ -218,7 +215,7 @@ body {
     align-items: center;
 }
 
-#settingsModal select {
+.settings-modal select {
     background-color: #1E1E1E;
     color: white;
     border: 0.1em solid #656565;
@@ -278,7 +275,7 @@ body {
     background-color: #464646;
 }
 
-#settingsModal .large-button {
+.settings-modal .large-button {
     background-color: #1E1E1E;
     color: white;
     border: 0.1em solid #656565;
@@ -287,17 +284,11 @@ body {
     font: inherit;
 }
 
-#settingsModal input[type="range"] {
+.settings-modal input[type="range"] {
     -webkit-appearance: none;
     width: 100%;
     height: 0.5em;
     border-radius: 0.5em;
-}
-
-.nsm7Bb-HzV7m-LgbsSe.jVeSEe.i5vt6e-Ia7Qfc.uaxL4e-RbRzK {
-    background-color: #292929;
-    border-radius: 0.5em;
-    color: white;
 }
 
 #accountPopup {

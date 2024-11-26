@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
     <link rel="stylesheet" href="app.css" />
-    <link rel="stylesheet" href="editor.css" />
     <link rel="manifest" href="manifest.json">
     <!-- iconify web component -->
     <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
@@ -19,6 +18,9 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <!-- jwt decode -->
     <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
+    <!-- quill -->
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
+    <link rel="stylesheet" href="editor.css" />
 
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <title>Smart Writer</title>
@@ -35,7 +37,7 @@
                     <div class="note-items">
                         <button class="note-item" id="currentNote">
                             <div class="left">
-                                <iconify-icon icon="ci:notebook"></iconify-icon>
+                                <iconify-icon icon="ci:notebook" style="color: #DBB13D"></iconify-icon>
                                 <p class="note-title"></p>
                             </div>
                             <div class="right">
@@ -46,7 +48,7 @@
                         </button>
                         <button class="note-item">
                             <div class="left">
-                                <iconify-icon icon="ci:notebook"></iconify-icon>
+                                <iconify-icon icon="ci:notebook" style="color: #DBB13D"></iconify-icon>
                                 <p class="note-title">New Note</p>
                             </div>
                             <div class="right">
@@ -58,8 +60,7 @@
                     </div>
                 </div>
                 <div class="sidebar-bottom">
-                    <div id="googleLoginButton"></div>
-                    <div class="g_id_signin" data-type="standard"></div>
+                    <div id="googleLoginButton"><div class="g_id_signin" data-type="standard"></div></div>
                     <button class="note-item" id="accountButton" onclick="openAccountPopup()" style="display: none;">
                         <div class="left">
                             <!-- <iconify-icon icon="ci:user-02"></iconify-icon> -->
@@ -109,7 +110,7 @@
             </div>
         </div>
     </div>
-    <div id="settingsModal" style="opacity: 0; pointer-events: none;">
+    <div class="settings-modal" style="opacity: 0; pointer-events: none;">
         <div class="settings-modal-content">
             <div class="settings-modal-header">
                 <h2>Settings</h2>
@@ -137,7 +138,7 @@
             </div>
         </div>
     </div>
-    <div id="aboutModal" style="opacity: 0; pointer-events: none;">
+    <div class="about-modal" style="opacity: 0; pointer-events: none;">
         <div class="about-modal-content">
             <div class="about-modal-header">
                 <h2>About</h2>
@@ -152,210 +153,15 @@
         </div>
     </div>
     <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+    <script src="accountManagement.js"></script>
     <script>
-        function getCookie(name) {
-            const value = `; ${document.cookie}`;
-            const parts = value.split(`; ${name}=`);
-            if (parts.length === 2) return parts.pop().split(';').shift();
-        }
-    
-        // Function to decode JWT
-        function parseJwt (token) {
-            const base64Url = token.split('.')[1];
-            const base64 = decodeURIComponent(atob(base64Url).split('').map(function(c) {
-                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-            }).join(''));
-            return JSON.parse(base64);
-        }
-    
-        function handleCredentialResponse(response) {
-            document.cookie = "id_token=" + response.credential + "; path=/; max-age=3600; secure; sameSite=Lax";
-            const accountButton = document.querySelector('#accountButton');
-            const decoded = parseJwt(response.credential);
-            document.querySelector('#accountName').innerText = decoded.given_name;
-            document.querySelector('#accountButton img').src = decoded.picture;
-            accountButton.style.display = 'block';
-            document.getElementById("googleLoginButton").style.display = 'none';
-            tippy("#accountButton", {
-                content: "Signed in as " + decoded.name + " (" + decoded.email + ")",
-                placement: "top",
-            });
-        }
-
-        function signOut() {
-            document.cookie = "id_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; secure; sameSite=Lax";
-            google.accounts.id.disableAutoSelect();
-            location.reload();
-        }
-
-        window.onload = function () {
-            const id_token = getCookie("id_token");
-            if (!id_token) {
-                google.accounts.id.initialize({
-                    client_id: "712821347110-2uma4qc17qvav309ngmvcovdi0a6cdj3.apps.googleusercontent.com",
-                    callback: handleCredentialResponse
-                });
-                google.accounts.id.renderButton(
-                    document.getElementById("googleLoginButton"),
-                    { theme: "dark", size: "large" }
-                );
-                google.accounts.id.prompt();
-            } else {
-                // Decode the JWT to get user info
-                const decoded = parseJwt(id_token);
-                const accountButton = document.querySelector('#accountButton');
-                document.querySelector('#accountName').innerText = decoded.given_name;
-                document.querySelector('#accountButton img').src = decoded.picture;
-                accountButton.style.display = 'block';
-                tippy("#accountButton", {
-                    content: "Signed in as " + decoded.name + " (" + decoded.email + ")",
-                    placement: "top",
-                });
-            }
-        }
-    </script>
-    <script>
-        const editor = new toastui.Editor({
-            el: document.querySelector('#editor'),
-            height: '100%',
-            initialValue: "# New Note (1)",
-            initialEditType: 'wysiwyg',
-        });
-
-        // add a new toastui-editor-toolbar-group to the toolbar
-        newToolbarGroup = `
-        <div class="toastui-editor-toolbar-group">
-            <!-- scale slider -->
-            <div style="display: flex; flex-direction: row; align-items: center; justify-content: center;">
-                <p style="margin-right: 0.25em;">Scale</p>
-                <input type="range" min="0.5" max="2" step="0.1" value="1" id="scaleSlider">
-            </div>
-        </div>
-        `;
-        // newToolbarGroupElement = document.querySelector('.toastui-editor-defaultUI-toolbar').insertAdjacentHTML('beforeend', newToolbarGroup);
-
-        // document.querySelector('#scaleSlider').addEventListener('input', (e) => {
-        //     const elements = document.querySelectorAll('.toastui-editor-contents *');
-        //     elements.forEach(element => {
-        //         element.style.setProperty('font-size', `${e.target.value}em`, 'important');
-        //     });
-        // });
-
-        function openAccountPopup() {
-            const accountButton = document.querySelector('#accountButton');
-            const accountPopup = document.querySelector('#accountPopup');
-            accountPopup.style.top = `${accountButton.offsetTop - accountPopup.offsetHeight}px`;
-            accountPopup.style.left = `${accountButton.offsetLeft}px`;
-            accountPopup.style.opacity = '1';
-            accountPopup.style.pointerEvents = 'auto';
-            // add event listener to close the popup when clicked outside and then remove the event listener
-            document.addEventListener(
-                'click',
-                function closePopup(e) {
-                    if (!accountPopup.contains(e.target) && !accountButton.contains(e.target)) {
-                        accountPopup.style.opacity = '0';
-                        accountPopup.style.pointerEvents = 'none';
-                        document.removeEventListener('click', closePopup);
-                    }
-                }
-            );
-        }
-
-        function openSettings() {
-            document.querySelector('#settingsModal').style.opacity = '1';
-            document.querySelector('#settingsModal').style.pointerEvents = 'auto';
-            document.querySelector('.main-content').style.filter = 'brightness(0.5)';
-            document.querySelector('.main-content').style.pointerEvents = 'none';
-        }
-
-        function closeSettings() {
-            document.querySelector('#settingsModal').style.opacity = '0';
-            document.querySelector('#settingsModal').style.pointerEvents = 'none';
-            document.querySelector('.main-content').style.filter = 'brightness(1)';
-            document.querySelector('.main-content').style.pointerEvents = 'auto';
-        }
-
-        function openAbout() {
-            document.querySelector('#aboutModal').style.opacity = '1';
-            document.querySelector('#aboutModal').style.pointerEvents = 'auto';
-            document.querySelector('.main-content').style.filter = 'brightness(0.5)';
-            document.querySelector('.main-content').style.pointerEvents = 'none';
-        }
-
-        function closeAbout() {
-            document.querySelector('#aboutModal').style.opacity = '0';
-            document.querySelector('#aboutModal').style.pointerEvents = 'none';
-            document.querySelector('.main-content').style.filter = 'brightness(1)';
-            document.querySelector('.main-content').style.pointerEvents = 'auto';
-        }
-
-        function toggleSpellcheck(e) {
-            const elements = document.querySelectorAll('.toastui-editor-contents *');
-            let spellcheck = e.checked;
-            elements.forEach(element => {
-                element.spellcheck = spellcheck;
-            });
-        }
-        
-        function updateWordCount() {
-            const content = editor.getMarkdown().trim();
-            const words = content.split(/\s+/).filter(word => word.match(/[a-zA-Z0-9]/));
-            const wordCount = words.length;
-            document.querySelector('#wordCount').innerText = `${wordCount} words`;
-        }
-
-        function updateCharacterCount() {
-            const content = editor.getMarkdown().trim();
-            const characterCount = content.replace(/\s/g, '').length;
-            document.querySelector('#characterCount').innerText = `${characterCount} characters excl. spaces`;
-        }
-
-        function updateNoteTitle() {
-            markdown = editor.getMarkdown();
-            if ((markdown.startsWith("\\#") || markdown.startsWith("#"))) {
-                title = markdown.split("\n")[0].replace("#", "").trim();
-                if (title == "" || title == " ") {
-                    title = "New Note";
-                }
-                document.querySelector('.note-title').innerText = title;
-            } else {
-                document.querySelector('.note-title').innerText = "New Note";
-            }
-        }
-
-        editor.on('change', () => {
-            updateWordCount();
-            updateCharacterCount();
-            updateNoteTitle();
-            updateSyntaxHighlighting();
-        });
-
-        updateWordCount();
-        updateCharacterCount();
-        updateNoteTitle();
-    </script>
-    <script>
-        tippy("#newNoteButton", {
-            content: "New Note",
-            placement: "right",
-        });
-
-        tippy(".tag-button", {
-            content: "Edit Tags",
-            placement: "right",
-        });
-
-        tippy("#wordCount", {
-            content: "Word Count (May not be accurate)",
-            placement: "top",
-        });
-
-        tippy("#characterCount", {
-            content: "Click to toggle character count mode",
-            placement: "top",
+        const quill = new Quill('#editor', {
+            theme: 'snow'
         });
     </script>
+    <script src="ui.js"></script>
+    <script src="tooltips.js"></script>
 </body>
 </html>

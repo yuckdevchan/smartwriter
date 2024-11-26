@@ -1,0 +1,26 @@
+#editor {
+    zoom: 1.3;
+}
+
+.ql-toolbar {
+    border: none !important;
+}
+
+.ql-toolbar * {
+    color: white;
+}
+
+.ql-container {
+    border: none !important;
+}
+
+.ql-picker-options {
+    background-color: #1E1E1E !important;
+    color: white !important;
+    border: 0.1em solid #919191 !important;
+    border-radius: 0.5em;
+}
+
+.ql-header {
+    border: none !important;
+}
