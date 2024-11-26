@@ -22,3 +22,8 @@ tippy("#googleLoginButton", {
     content: "Login to save notes",
     placement: "top",
 });
+
+tippy("#toggleThemeButton", {
+    content: "Toggle Theme",
+    placement: "right",
+})

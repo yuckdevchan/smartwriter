@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -60,7 +60,7 @@
                     </div>
                 </div>
                 <div class="sidebar-bottom">
-                    <div id="googleLoginButton"><div class="g_id_signin" data-type="standard"></div></div>
+                    <div id="googleLoginButton" style="margin-bottom: 0.5em;"><div class="g_id_signin" data-type="standard"></div></div>
                     <button class="note-item" id="accountButton" onclick="openAccountPopup()" style="display: none;">
                         <div class="left">
                             <!-- <iconify-icon icon="ci:user-02"></iconify-icon> -->
@@ -75,6 +75,11 @@
                             </div>
                         </button>
                     </div>
+                    <button class="note-item" id="toggleThemeButton" onclick="toggleTheme()">
+                        <div class="left">
+                            <iconify-icon icon="ci:moon" id="themeIcon"></iconify-icon><span id="themeText">Dark Mode</span>
+                        </div>
+                    </button>
                     <button class="note-item" id="openAboutButton" onclick="openAbout()">
                         <div class="left">
                             <iconify-icon icon="ci:info"></iconify-icon>About
@@ -163,5 +168,6 @@
     </script>
     <script src="ui.js"></script>
     <script src="tooltips.js"></script>
+    <script src="theme.js"></script>
 </body>
 </html>
