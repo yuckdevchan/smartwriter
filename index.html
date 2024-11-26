@@ -41,6 +41,9 @@
                                 <div class="action-button tag-button">
                                     <iconify-icon icon="ci:tag"></iconify-icon>
                                 </div>
+                                <div class="action-button note-options-button">
+                                    <iconify-icon icon="ci:more-vertical"></iconify-icon>
+                                </div>
                             </div>
                         </button>
                         <button class="note-item">
@@ -51,6 +54,9 @@
                             <div class="right">
                                 <div class="action-button tag-button">
                                     <iconify-icon icon="ci:tag"></iconify-icon>
+                                </div>
+                                <div class="action-button note-options-button">
+                                    <iconify-icon icon="ci:more-vertical"></iconify-icon>
                                 </div>
                             </div>
                         </button>
@@ -126,8 +132,37 @@
                     </button>
                 </div>
                 <div class="settings-modal-section">
-                    <h3>Editor Content Scale</h3>
-                    <input type="range" min="0.5" max="2" step="0.1" value="1.3" id="scaleSlider">
+                    <h3>Editor</h3>
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                        <iconify-icon icon="ci:move-vertical"  style="color: black"></iconify-icon>
+                        <label for="scaleSlider">Content Scale</label>
+                    </div>
+                    <div style="display: flex; flex-direction: row; align-items: center; gap: 0.75em;">
+                        <p id="scaleSliderValue"></p>
+                        <input type="range" min="0.5" max="10" step="0.005" value="1.3" id="scaleSlider">
+                        <button class="settings-button" onclick="document.querySelector('#scaleSlider').value = 1.3; document.querySelector('#scaleSliderValue').innerText = '130%'; document.querySelector('#editor').style.zoom = 1.3;"><iconify-icon icon="ci:undo"></iconify-icon></button>
+                    </div>
+                </div>
+                <div class="settings-modal-section">
+                    <h3>Filters</h3>
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                        <iconify-icon icon="ci:bulb"  style="color: black"></iconify-icon>
+                        <label for="scaleSlider">Night Tint</label>
+                    </div>
+                    <div style="display: flex; flex-direction: row; align-items: center; gap: 0.75em;">
+                        <p id="nightLightSliderValue"></p>
+                        <input type="range" min="0" max="2" step="0.005" value="0" id="nightLightSlider">
+                        <button class="settings-button" onclick="document.querySelector('#nightLightSlider').value = 0; document.querySelector('#nightLightSliderValue').innerText = '0%'; applyNightLight(0);"><iconify-icon icon="ci:undo"></iconify-icon></button>
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                        <iconify-icon icon="ci:sun"  style="color: black"></iconify-icon>
+                        <label for="scaleSlider">Brightness</label>
+                    </div>
+                    <div style="display: flex; flex-direction: row; align-items: center; gap: 0.75em;">
+                        <p id="brightnessSliderValue"></p>
+                        <input type="range" min="0" max="2" step="0.005" value="1" id="brightnessSlider">
+                        <button class="settings-button" onclick="document.querySelector('#brightnessSlider').value = 1; document.querySelector('#brightnessSliderValue').innerText = '100%'; applyBrightness(1);"><iconify-icon icon="ci:undo"></iconify-icon></button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -145,6 +180,12 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div id="noteOptionsPopup" style="opacity: 0; pointer-events: none;">
+        <button class="settings-button" style="width: 100%;" id="deleteNoteButton" onclick="deleteNote()">
+            <iconify-icon icon="ci:trash-full" style="color: rgb(249, 59, 59);"></iconify-icon>
+            <span>Delete</spanr>
+        </button>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>

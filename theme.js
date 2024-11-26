@@ -88,6 +88,33 @@ function toggleTheme() {
     }
 }
 
+function applyNightLight(level) {
+    level = level * 100;
+    nightLightSliderValue = document.getElementById('nightLightSliderValue');
+    nightLightSliderValue.innerText = Math.round(level) + '%';
+    if (level === 0) {
+        bodyFilters = document.body.style.filter;
+        document.body.style.filter = bodyFilters.replace(/sepia\(\d+%\)/, '');
+        return;
+    }
+    document.body.style.filter = `sepia(${level}%)`;
+}
+nightLightSlider = document.getElementById('nightLightSlider');
+nightLightSlider.value = 0;
+applyNightLight(0);
+nightLightSlider.addEventListener('input', () => {
+    applyNightLight(nightLightSlider.value);
+});
+
+function applyBrightness(level) {
+    if (level === 0) {
+        bodyFilters = document.body.style.filter;
+        document.body.style.filter = bodyFilters.replace(/brightness\(\d+%\)/, '');
+        return;
+    }
+    document.body.style.filter = `brightness(${level}%)`;
+}
+
 if (document.cookie.includes('theme=dark')) {
     setDarkTheme();
 } else {

@@ -46,18 +46,26 @@ function closeAbout() {
     document.querySelector('.main-content').style.pointerEvents = 'auto';
 }
 
-// function updateWordCount() {
-//     const content = editor.getMarkdown().trim();
-//     const words = content.split(/\s+/).filter(word => word.match(/[a-zA-Z0-9]/));
-//     const wordCount = words.length;
-//     document.querySelector('#wordCount').innerText = `${wordCount} words`;
-// }
+function openNoteOptions(e) {
+    if (!e || !e.target) {
+        console.error('Event or event target is undefined');
+        return;
+    }
 
-// function updateCharacterCount() {
-//     const content = editor.getMarkdown().trim();
-//     const characterCount = content.replace(/\s/g, '').length;
-//     document.querySelector('#characterCount').innerText = `${characterCount} characters excl. spaces`;
-// }
+    // Get the bounding rectangle of the clicked element
+    const rect = e.target.getBoundingClientRect();
+
+    // Open the popup to the right of the note
+    const noteOptionsPopup = document.querySelector('#noteOptionsPopup');
+    noteOptionsPopup.style.top = `${rect.top + window.scrollY}px`;
+    noteOptionsPopup.style.left = `${rect.left + rect.width + window.scrollX+10}px`;
+    noteOptionsPopup.style.opacity = '1';
+    noteOptionsPopup.style.pointerEvents = 'auto';
+}
+
+document.querySelectorAll('.note-item').forEach(item => {
+    item.addEventListener('click', openNoteOptions);
+});
 
 function updateWordCount() {
     const content = quill.getText().trim();
@@ -85,6 +93,18 @@ function updateNoteTitle() {
     }
 }
 
+function updateScaleSliderValue() {
+    const scaleSliderValue = document.querySelector('#scaleSliderValue');
+    const scaleSlider = document.querySelector('#scaleSlider');
+    scaleSliderValue.innerText = `${Math.round(scaleSlider.value * 100)}%`;
+}
+
+scaleSlider.value = 1.3;
+document.querySelector('#scaleSlider').oninput = function() {
+    updateScaleSliderValue();
+    document.querySelector('#editor').style.zoom = this.value;
+}
+
 document.querySelector('#scaleSlider').addEventListener('input', function() {
     document.querySelector('#editor').style.zoom = this.value;
 });
@@ -95,6 +115,7 @@ quill.on('text-change', function(delta, oldDelta, source) {
     updateNoteTitle();
 });
 
+updateScaleSliderValue();
 updateWordCount();
 updateCharacterCount();
 updateNoteTitle();
