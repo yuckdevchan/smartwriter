@@ -195,6 +195,7 @@
             </div>
             <div class="about-content">
                 <p>Smart Writer is a sleek, minimalist and modern note-taking app.</p>
+                <p>Written in pure JavaScript 🔥</p>
                 <div class="about-links">
                     <button id="openGitHubButton" onclick="window.open('https://github.com/yuckdevchan/smartwriter', '_blank');" class="action-button"><iconify-icon icon="ci:github"></iconify-icon></button>
                 </div>
@@ -250,6 +251,7 @@
         </button> -->
     </div>
     <div id="palette" style="opacity: 0; pointer-events: none;">
+        <span>[esc] to close</span>
         <div class="search-bar">
             <iconify-icon icon="material-symbols:search-rounded"></iconify-icon>
             <input type="text" id="paletteInput" placeholder="Find an action...">
@@ -259,6 +261,11 @@
     <div id="closeCommandPaletteButton" style="opacity: 0; pointer-events: none;" onclick="closeCommandPalette()">
         <iconify-icon icon="ci:close-lg"></iconify-icon>
         <span>Close</span>
+    </div>
+    <div id="welcomeDialog">
+        <h1>Welcome to Smart Writer</h1>
+        <p>Smart Writer is a sleek, minimalist and modern note-taking app.</p>
+        <button class="action-button" id="closeWelcomeDialogButton" onclick="closeWelcomeDialog()">Get Started</button>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>

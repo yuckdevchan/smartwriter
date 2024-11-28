@@ -117,16 +117,28 @@ commands = {
         function() {
             document.querySelector('.toggle-theme-button').click();
         },
-        "mdi:theme"
+        "mdi:theme",
+        false,
+        "Settings > Theme > Toggle Theme"
     ],
-    "Edit Settings": [
+    "Settings": [
         openSettings,
-        "ci:settings"
+        "ci:settings",
+        true,
+        "Edit > Settings"
     ],
     "About": [
         openAbout,
-        "mdi:information"
+        "mdi:information",
+        true,
+        "View About"
     ],
+    "Sign Out": [
+        openAccountPopup,
+        "ci:log-out",
+        true,
+        "Account > Sign Out"
+    ]
 }
 
 function updateCommandPaletteResults(e) {
@@ -137,8 +149,23 @@ function updateCommandPaletteResults(e) {
     results.forEach(result => {
         const commandElement = document.createElement('div');
         commandElement.classList.add('command');
-        commandElement.textContent = result;
-        commandElement.addEventListener('click', commands[result][0]);
+        const iconAndText = document.createElement('div');
+        const icon = document.createElement('iconify-icon');
+        icon.setAttribute('icon', commands[result][1]);
+        iconAndText.appendChild(icon);
+        const span = document.createElement('span');
+        span.textContent = result;
+        commandElement.appendChild(span);
+        const path = document.createElement('span');
+        path.classList.add('path');
+        path.textContent = commands[result][3];
+        commandElement.appendChild(path);
+        commandElement.addEventListener('click', function() {
+            commands[result][0]();
+            if (commands[result][2]) {
+                closeCommandPalette();
+            }
+        });
         commandPaletteResults.appendChild(commandElement);
     });
 }
@@ -160,8 +187,6 @@ function openCommandPalette() {
             const firstCommand = document.querySelector('.command');
             if (firstCommand) {
                 firstCommand.click();
-                document.removeEventListener('keydown', runFirstCommand);
-                closeCommandPalette();
             }
         }
     });
@@ -181,6 +206,12 @@ document.addEventListener('keydown', function(e) {
         toggleCommandPalette();
     }
 });
+
+function closeWelcomeDialog() {
+    const welcomeDialog = document.querySelector('#welcomeDialog');
+    welcomeDialog.style.opacity = '0';
+    welcomeDialog.style.pointerEvents = 'none';
+}
 
 function updateWordCount() {
     const content = quill.getText().trim();
