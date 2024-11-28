@@ -31,8 +31,8 @@
                         <p class="serif-heading">Recent Notes</p>
                         <button class="action-button" id="newNoteButton"><iconify-icon icon="ci:note-edit"></iconify-icon></button>
                     </div>
-                    <div class="note-items">
-                        <button class="note-item" id="currentNote">
+                    <div class="sidebar-items">
+                        <button class="sidebar-item note-item" id="currentNote">
                             <div class="left">
                                 <iconify-icon icon="ci:notebook" style="color: #DBB13D"></iconify-icon>
                                 <p class="note-title"></p>
@@ -46,7 +46,7 @@
                                 </div>
                             </div>
                         </button>
-                        <button class="note-item">
+                        <button class="sidebar-item note-item">
                             <div class="left">
                                 <iconify-icon icon="ci:notebook" style="color: #DBB13D"></iconify-icon>
                                 <p class="note-title">New Note</p>
@@ -63,8 +63,11 @@
                     </div>
                 </div>
                 <div class="sidebar-bottom">
+                    <div class="clock">
+                        <span id="clockTime" class="clock-time"></span>
+                    </div>
                     <div id="googleLoginButton" style="margin-bottom: 0.5em;"><div class="g_id_signin" data-type="standard"></div></div>
-                    <button class="note-item" id="accountButton" onclick="openAccountPopup()" style="display: none;">
+                    <button class="sidebar-item" id="accountButton" onclick="openAccountPopup()" style="display: none;">
                         <div class="left">
                             <!-- <iconify-icon icon="ci:user-02"></iconify-icon> -->
                             <img style="width: 2em; height: 2em;">
@@ -72,23 +75,23 @@
                         </div>
                     </button>
                     <div id="accountPopup" style="opacity: 0; pointer-events: none;">
-                        <button class="note-item" id="signoutButton" onclick="signOut()">
+                        <button class="sidebar-item" id="signoutButton" onclick="signOut()">
                             <div class="left">
                                 <iconify-icon icon="ci:log-out" style="color: rgb(249, 59, 59);"></iconify-icon>Sign Out
                             </div>
                         </button>
                     </div>
-                    <button class="note-item" class="toggle-theme-button" onclick="toggleTheme()">
+                    <button class="sidebar-item toggle-theme-button" onclick="toggleTheme()">
                         <div class="left">
                             <iconify-icon icon="ci:moon" class="theme-icon"></iconify-icon><span class="theme-text"></span>
                         </div>
                     </button>
-                    <button class="note-item" id="openAboutButton" onclick="openAbout()">
+                    <button class="sidebar-item" id="openAboutButton" onclick="openAbout()">
                         <div class="left">
                             <iconify-icon icon="ci:info"></iconify-icon>About
                         </div>
                     </button>
-                    <button class="note-item" id="openSettingsButton" onclick="openSettings()">
+                    <button class="sidebar-item" id="openSettingsButton" onclick="openSettings()">
                         <div class="left">
                             <iconify-icon icon="ci:settings"></iconify-icon>Settings
                         </div>
@@ -132,9 +135,14 @@
                     </button>
                 </div>
                 <div class="settings-modal-section">
+                    <!-- <h3>Interface</h3> -->
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                    </div>
+                </div>
+                <div class="settings-modal-section">
                     <h3>Editor</h3>
                     <div style="display: flex; justify-content: center; align-items: center;">
-                        <iconify-icon icon="ci:move-vertical"  style="color: black"></iconify-icon>
+                        <iconify-icon icon="ci:move-vertical"></iconify-icon>
                         <label for="scaleSlider">Content Scale</label>
                     </div>
                     <div style="display: flex; flex-direction: row; align-items: center; gap: 0.75em;">
@@ -145,8 +153,8 @@
                 </div>
                 <div class="settings-modal-section">
                     <h3>Filters</h3>
-                    <div style="display: flex; justify-content: center; align-items: center;">
-                        <iconify-icon icon="ci:bulb"  style="color: black"></iconify-icon>
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 0.1em;">
+                        <iconify-icon icon="ci:bulb"></iconify-icon>
                         <label for="scaleSlider">Night Tint</label>
                     </div>
                     <div style="display: flex; flex-direction: row; align-items: center; gap: 0.75em;">
@@ -154,8 +162,8 @@
                         <input type="range" min="0" max="2" step="0.005" value="0" id="nightLightSlider">
                         <button class="settings-button" onclick="document.querySelector('#nightLightSlider').value = 0; document.querySelector('#nightLightSliderValue').innerText = '0%'; applyNightLight(0);"><iconify-icon icon="ci:undo"></iconify-icon></button>
                     </div>
-                    <div style="display: flex; justify-content: center; align-items: center;">
-                        <iconify-icon icon="ci:sun"  style="color: black"></iconify-icon>
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 0.1em;">
+                        <iconify-icon icon="ci:sun"></iconify-icon>
                         <label for="scaleSlider">Brightness</label>
                     </div>
                     <div style="display: flex; flex-direction: row; align-items: center; gap: 0.75em;">
@@ -163,6 +171,10 @@
                         <input type="range" min="0" max="2" step="0.005" value="1" id="brightnessSlider">
                         <button class="settings-button" onclick="document.querySelector('#brightnessSlider').value = 1; document.querySelector('#brightnessSliderValue').innerText = '100%'; applyBrightness(1);"><iconify-icon icon="ci:undo"></iconify-icon></button>
                     </div>
+                </div>
+                <div style="display: flex; justify-content: center; align-items: center; margin-top: 2em; gap: 0.1em;">
+                    <iconify-icon icon="ci:info"></iconify-icon>
+                    <label for="scaleSlider">Settings are saved in your browser, not your account.</label>
                 </div>
             </div>
         </div>
@@ -182,9 +194,9 @@
         </div>
     </div>
     <div id="noteOptionsPopup" style="opacity: 0; pointer-events: none;">
-        <button class="settings-button" style="width: 100%;" id="deleteNoteButton" onclick="deleteNote()">
+        <button class="popup-button" style="width: 100%;" id="deleteNoteButton" onclick="deleteNote()">
             <iconify-icon icon="ci:trash-full" style="color: rgb(249, 59, 59);"></iconify-icon>
-            <span>Delete</spanr>
+            <span>Delete</span>
         </button>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
@@ -192,7 +204,16 @@
     <script src="accountManagement.js"></script>
     <script>
         const quill = new Quill('#editor', {
-            theme: 'snow'
+            theme: 'snow',
+            modules: {
+                toolbar: [
+                  [{ 'header': [1, 2, false] }],
+                  ['bold', 'italic', 'underline', 'color', 'background'],
+                  ['link', 'image', 'video'],
+                  ['blockquote', 'code-block'],
+                  [{ 'align': [] }, { 'list': 'check' }, { 'list': 'bullet' }, { 'list': 'ordered' }, { 'indent': '-1' }, { 'indent': '+1' }, 'clean'],
+                ]
+            }
         });
     </script>
     <script src="ui.js"></script>

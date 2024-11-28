@@ -84,12 +84,13 @@ function updateNoteTitle() {
     const noteTitle = quill.getText().split('\n')[0];
     document.querySelector('#currentNote .note-title').textContent = noteTitle;
     const disallowedTitles = ['']
+    currentNote = document.querySelector('#currentNote');
     if (!disallowedTitles.includes(noteTitle.trim())) {
-        currentNote = document.querySelector('#currentNote');
         currentNote.querySelector('.note-title').textContent = noteTitle;
+        document.title = noteTitle + ' - Notes';
     } else {
-        currentNote = document.querySelector('#currentNote');
         currentNote.querySelector('.note-title').textContent = 'New Note';
+        document.title = 'New Note' + ' - Notes';
     }
 }
 
@@ -109,12 +110,27 @@ document.querySelector('#scaleSlider').addEventListener('input', function() {
     document.querySelector('#editor').style.zoom = this.value;
 });
 
+function updateClockTime() {
+    const clockText = document.querySelector('#clockTime');
+    const time = new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+    clockText.innerText = time;
+
+    // Trigger reflow to restart the animation
+    clockText.classList.remove('clock-time');
+    void clockText.offsetWidth; // Trigger reflow
+    clockText.classList.add('clock-time');
+
+    setTimeout(updateClockTime, 1000);
+}
+
+
 quill.on('text-change', function(delta, oldDelta, source) {
     updateWordCount();
     updateCharacterCount();
     updateNoteTitle();
 });
 
+updateClockTime();
 updateScaleSliderValue();
 updateWordCount();
 updateCharacterCount();

@@ -61,13 +61,13 @@ body {
     user-select: none;
 }
 
-.note-items {
+.sidebar-items {
     display: flex;
     flex-direction: column;
     gap: 0.5em;
 }
 
-.note-item {
+.sidebar-item {
     border-radius: 0.5em;
     padding: 0.5em;
     display: flex;
@@ -78,18 +78,18 @@ body {
     border: none;
     font: inherit;
     color: inherit;
-    background-color: var(--note-item-color);
+    background-color: var(--sidebar-item-color);
     width: 100%;
 }
 
-.note-item .left, .note-item .right, .g-signin2 .left, .g-signin2 .right {
+.sidebar-item .left, .sidebar-item .right, .g-signin2 .left, .g-signin2 .right {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 0.5em;
 }
 
-.note-item .right, .g-signin2 .right {
+.sidebar-item .right, .g-signin2 .right {
     margin-right: 0.25em;
 }
 
@@ -98,13 +98,13 @@ body {
     margin: 0;
 }
 
-.note-item:hover, #currentNote {
-    background-color: var(--note-item-color-selected);
+.sidebar-item:hover, #currentNote {
+    background-color: var(--sidebar-item-color-selected);
     cursor: default;
 }
 
-.note-item:active {
-    background-color: var(--note-item-color-active);
+.sidebar-item:active {
+    background-color: var(--sidebar-item-color-active);
 }
 
 .settings-button {
@@ -117,15 +117,15 @@ body {
     border: none;
     font: inherit;
     color: inherit;
-    background-color: var(--note-item-color-selected);
+    background-color: var(--sidebar-item-color-selected);
 }
 
 .settings-button:hover {
-    background-color: var(--note-item-color-active);
+    background-color: var(--sidebar-item-color-hover);
 }
 
 .settings-button:active {
-    filter: brightness(0.9);
+    background-color: var(--sidebar-item-color-active);
 }
 
 .content {
@@ -253,6 +253,10 @@ body {
     font: inherit;
 }
 
+.settings-modal iconify-icon {
+    color: var(--text-color);
+}
+
 .action-button {
     position: relative;
     border: none;
@@ -272,7 +276,7 @@ body {
     left: 50%;
     width: 0;
     height: 0;
-    background-color: #656565;
+    background-color: var(--action-button-hover-color);
     border-radius: 50%;
     transform: translate(-50%, -50%);
     z-index: -1; /* Ensure the pseudo-element is behind the button */
@@ -284,7 +288,7 @@ body {
 }
 
 .action-button:active::before {
-    background-color: #4a4a4a; /* Darker color when clicked */
+    background-color: var(--action-button-active-color)
 }
 
 .action-button-large {
@@ -301,7 +305,11 @@ body {
 }
 
 .action-button-large:hover {
-    background-color: #464646;
+    background-color: var(--status-bar-item-hover-color);
+}
+
+.action-button-large:active {
+    background-color: var(--status-bar-item-active-color);
 }
 
 .settings-modal .large-button {
@@ -321,24 +329,42 @@ body {
     background-color: var(--buttons-and-dropdowns);
 }
 
-#accountPopup {
+#accountPopup, #noteOptionsPopup {
     position: absolute;
     top: 0;
     left: 0;
-    background-color: #1E1E1E;
+    background-color: var(--popup-color);
     padding: 0.5em;
     width: 12em;
-    border: 0.1em solid #656565;
     border-radius: 0.5em;
+    box-shadow: 0 0 0.5em #00000031;
 }
 
-#noteOptionsPopup {
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: #1E1E1E;
-    padding: 0.5em;
-    width: 12em;
-    border: 0.1em solid #656565;
+.popup-button {
     border-radius: 0.5em;
+    padding: 0.5em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.25em;
+    border: none;
+    font: inherit;
+    color: inherit;
+    background-color: var(--popup-color);
+}
+
+.popup-button:hover {
+    background-color: var(--sidebar-item-color-hover);
+}
+
+.popup-button:active {
+    background-color: var(--sidebar-item-color-active);
+}
+
+.clock #clockTime {
+    font-size: 2em;
+    display: flex;
+    font-family: 'Merriweather', serif;
+    font-weight: 300;
+    user-select: none;
 }
