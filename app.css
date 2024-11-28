@@ -1,11 +1,6 @@
 @font-face {
-    font-family: "SuperGlue";
-    src: url("fonts/SuperGlue.ttf") format("truetype");
-}
-
-@font-face {
     font-family: "Inkwell";
-    src: url("fonts/Inkwell.ttf") format("truetype");
+    src: url("https://github.com/yuckdevchan/smartwriter/raw/refs/heads/main/fonts/Inkwell.ttf") format("truetype");
 }
 
 body {
