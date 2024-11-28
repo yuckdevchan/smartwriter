@@ -27,6 +27,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    transition: background-color 0.5s;
 }
 
 .sidebar iconify-icon {
@@ -145,6 +146,7 @@ body {
     align-items: center;
     gap: 1em;
     user-select: none;
+    transition: background-color 0.5s;
 }
 
 .status-bar .right, .status-bar .left {
@@ -301,7 +303,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 0.5em;
 }
 
 .action-button-large:hover {
@@ -329,7 +330,7 @@ body {
     background-color: var(--buttons-and-dropdowns);
 }
 
-#accountPopup, #noteOptionsPopup {
+#accountPopup, #noteOptionsPopup, #quillContextMenu {
     position: absolute;
     top: 0;
     left: 0;
@@ -338,6 +339,20 @@ body {
     width: 12em;
     border-radius: 0.5em;
     box-shadow: 0 0 0.5em #00000031;
+    z-index: 999;
+    border: 0.1em solid var(--popup-border-color);
+}
+
+#quillContextMenu {
+    width: 15em;
+}
+
+#quillContextMenu .popup-button {
+    justify-content: space-between;
+}
+
+#quillContextMenu .popup-button .right {
+    color: var(--text-color-subtle);
 }
 
 .popup-button {
@@ -367,4 +382,71 @@ body {
     font-family: 'Merriweather', serif;
     font-weight: 300;
     user-select: none;
+    transition: color 0.5s;
+}
+
+#palette {
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+    transition: opacity 0.15s ease;
+}
+
+#palette .search-bar {
+    border: 0.1em solid #656565;
+    width: 30em;
+    padding: 0.5em;
+    border-radius: 0.5em;
+    background-color: var(--modal-color);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5em;
+}
+
+#palette input {
+    border: none;
+    background-color: var(--modal-color);
+    border-radius: 0.5em;
+    padding: 0.5em;
+    font: inherit;
+    color: var(--text-color);
+    width: 100%;
+}
+
+#palette input:focus {
+    outline: none;
+}
+
+#palette #commandPaletteResults {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+    width: 30em;
+    max-height: 20em;
+    overflow-y: auto;
+}
+
+#palette #commandPaletteResults .command {
+    border-radius: 0.5em;
+    padding: 0.5em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5em;
+    border: none;
+    font: inherit;
+    color: inherit;
+    background-color: var(--sidebar-item-color);
+    width: 90%;
+    box-shadow: 0 0 0.5em #00000031;
 }

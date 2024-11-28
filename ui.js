@@ -46,25 +46,125 @@ function closeAbout() {
     document.querySelector('.main-content').style.pointerEvents = 'auto';
 }
 
+function closePopup() {
+    noteOptionsPopup.style.opacity = '0';
+    noteOptionsPopup.style.pointerEvents = 'none';
+    document.querySelector(".main-content").removeEventListener('click', closePopup);
+}
+
 function openNoteOptions(e) {
     if (!e || !e.target) {
         console.error('Event or event target is undefined');
         return;
     }
-
-    // Get the bounding rectangle of the clicked element
-    const rect = e.target.getBoundingClientRect();
-
-    // Open the popup to the right of the note
     const noteOptionsPopup = document.querySelector('#noteOptionsPopup');
-    noteOptionsPopup.style.top = `${rect.top + window.scrollY}px`;
-    noteOptionsPopup.style.left = `${rect.left + rect.width + window.scrollX+10}px`;
+    noteOptionsPopup.style.top = `${e.clientY}px`;
+    noteOptionsPopup.style.left = `${e.clientX}px`;
     noteOptionsPopup.style.opacity = '1';
     noteOptionsPopup.style.pointerEvents = 'auto';
-}
+    document.querySelector(".main-content").addEventListener('click', closePopup);
+};
 
 document.querySelectorAll('.note-item').forEach(item => {
+    item.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        openNoteOptions(e);
+    });
+});
+
+document.querySelectorAll('.note-options-button').forEach(item => {
     item.addEventListener('click', openNoteOptions);
+});
+
+function closeQuillContextMenu() {
+    const quillContextMenu = document.querySelector('#quillContextMenu');
+    quillContextMenu.style.opacity = '0';
+    quillContextMenu.style.pointerEvents = 'none';
+}
+
+function openQuillContextMenu(e) {
+    const quillContextMenu = document.querySelector('#quillContextMenu');
+    quillContextMenu.style.top = `${e.clientY}px`;
+    quillContextMenu.style.left = `${e.clientX}px`;
+    quillContextMenu.style.opacity = '1';
+    quillContextMenu.style.pointerEvents = 'auto';
+    document.querySelector('.main-content').addEventListener('click', closeQuillContextMenu);
+}
+
+document.querySelector('.ql-editor').addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+    openQuillContextMenu(e);
+});
+
+function closeCommandPalette() {
+    quill.focus();
+    const commandPalette = document.querySelector('#palette');
+    commandPalette.style.opacity = '0';
+    commandPalette.style.pointerEvents = 'none';
+    document.querySelector('.main-content').style.filter = 'brightness(1)';
+    document.querySelector('.main-content').style.pointerEvents = 'auto';
+    setTimeout(() => {
+        document.querySelector('#palette input').value = '';
+        document.querySelector('#commandPaletteResults').innerHTML = '';
+    }, 300);
+}
+
+commands = {
+    "Toggle Theme": [
+        function() {
+            document.querySelector('.toggle-theme-button').click();
+        },
+        "mdi:theme"
+    ],
+    "Edit Settings": [
+        openSettings,
+        "ci:settings"
+    ],
+    "About": [
+        openAbout,
+        "mdi:information"
+    ],
+}
+
+function updateCommandPaletteResults(e) {
+    const query = e.target.value;
+    const results = Object.keys(commands).filter(command => command.toLowerCase().includes(query.toLowerCase()));
+    const commandPaletteResults = document.querySelector('#commandPaletteResults');
+    commandPaletteResults.innerHTML = '';
+    results.forEach(result => {
+        const commandElement = document.createElement('div');
+        commandElement.classList.add('command');
+        commandElement.textContent = result;
+        commandElement.addEventListener('click', commands[result]);
+        commandPaletteResults.appendChild(commandElement);
+    });
+}
+
+document.querySelector('#palette input').addEventListener('input', updateCommandPaletteResults);
+
+function openCommandPalette() {
+    document.querySelector('#palette input').focus();
+    const commandPalette = document.querySelector('#palette');
+    commandPalette.style.opacity = '1';
+    commandPalette.style.pointerEvents = 'auto';
+    document.querySelector('.main-content').style.filter = 'brightness(0.5)';
+    document.querySelector('.main-content').style.pointerEvents = 'none';
+}
+
+function toggleCommandPalette() {
+    const commandPalette = document.querySelector('#palette');
+    if (commandPalette.style.opacity === '1') {
+        closeCommandPalette();
+    } else {
+        openCommandPalette();
+    }
+}
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' || (e.ctrlKey && e.key === 'k') || (e.ctrlKey && e.key === 'p') || (e.ctrlKey && e.shiftKey && e.key === 'p')) {
+        e.preventDefault();
+        toggleCommandPalette();
+    }
 });
 
 function updateWordCount() {

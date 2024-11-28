@@ -103,6 +103,12 @@
             <div id="editor"></div>
             <div class="status-bar">
                 <div class="left">
+                    <div class="status-item action-button-large" style="height: 2em;" onclick="openCommandPalette()" id="openPaletteButton">
+                        <iconify-icon icon="ci:search"></iconify-icon>
+                        <p id="openPaletteButtonText">Command Palette</p>
+                    </div>
+                </div>
+                <div class="right">
                     <div class="status-item">
                         <iconify-icon icon="fluent:text-word-count-24-filled"></iconify-icon>
                         <span id="wordCount"></span>
@@ -111,8 +117,6 @@
                         <iconify-icon icon="ci:arrow-left-right"></iconify-icon>
                         <p id="characterCount"></p>
                     </div>
-                </div>
-                <div class="right">
                 </div>
                 <!-- <div class="spellcheck"> -->
                     <!-- <input type="checkbox" id="spellcheckToggle" onchange="toggleSpellcheck(this)" checked> -->
@@ -194,10 +198,61 @@
         </div>
     </div>
     <div id="noteOptionsPopup" style="opacity: 0; pointer-events: none;">
+        <button class="popup-button" style="width: 100%" id="deleteNoteButton" onclick="deleteNote()">
+            <iconify-icon icon="ci:tag" style="color: var(--text-color);"></iconify-icon>
+            <span>Edit Tags</span>
+        </button>
         <button class="popup-button" style="width: 100%;" id="deleteNoteButton" onclick="deleteNote()">
             <iconify-icon icon="ci:trash-full" style="color: rgb(249, 59, 59);"></iconify-icon>
             <span>Delete</span>
         </button>
+    </div>
+    <div id="quillContextMenu" style="opacity: 0; pointer-events: none;">
+        <button class="popup-button" style="width: 100%;" id="deleteNoteButton" onclick="contextCut()">
+            <div class="left">
+                <iconify-icon icon="material-symbols:content-cut-rounded" style="color: var(--text-color)"></iconify-icon>
+                <span>Cut</span>
+            </div>
+            <div class="right">
+                <span>Ctrl + X</span>
+            </div>
+        </button>
+        <button class="popup-button" style="width: 100%;" id="deleteNoteButton" onclick="contextCopy()">
+            <div class="left">
+                <iconify-icon icon="material-symbols:content-copy-outline-rounded" style="color: var(--text-color)"></iconify-icon>
+                <span>Copy</span>
+            </div>
+            <div class="right">
+                <span>Ctrl + C</span>
+            </div>
+        </button>
+        <!-- <button class="popup-button" style="width: 100%;" id="deleteNoteButton" onclick="contextPaste()">
+            <div class="left">
+                <iconify-icon icon="material-symbols:content-paste-rounded" style="color: var(--text-color)"></iconify-icon>
+                <span>Paste</span>
+            </div>
+            <div class="right">
+                <span>Ctrl + V</span>
+            </div>
+        </button>
+        <button class="popup-button" style="width: 100%;" id="deleteNoteButton" onclick="contextPasteWithoutFormatting()">
+            <div class="left">
+                <iconify-icon icon="material-symbols:content-paste-go-rounded" style="color: var(--text-color)"></iconify-icon>
+                <span>Paste without formatting</span>
+            </div>
+            <div class="right">
+                <span>Ctrl + Shift + V</span>
+            </div>
+        </button> -->
+    </div>
+    <div id="palette" style="opacity: 0; pointer-events: none;">
+        <div class="search-bar">
+            <iconify-icon icon="material-symbols:search-rounded"></iconify-icon>
+            <input type="text" id="paletteInput" placeholder="Type a command or search...">
+        </div>
+        <div id="commandPaletteResults">
+            
+        </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -217,7 +272,8 @@
         });
     </script>
     <script src="ui.js"></script>
-    <script src="tooltips.js"></script>
     <script src="theme.js"></script>
+    <script src="editor.js"></script>
+    <script src="tooltips.js"></script>
 </body>
 </html>

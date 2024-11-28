@@ -2,8 +2,13 @@
     zoom: 1.3;
 }
 
+.ql-editor {
+    transition: background-color 0.5s;
+}
+
 .ql-toolbar {
     border: none !important;
+    transition: background-color 0.5s;
 }
 
 .ql-container {

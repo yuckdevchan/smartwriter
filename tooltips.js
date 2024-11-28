@@ -87,3 +87,8 @@ tippy(".ql-clean", {
     content: "Clear Formatting",
     placement: "bottom",
 })
+
+tippy("#openPaletteButton", {
+    content: "Toggle Command Palette (Esc)",
+    placement: "top",
+})

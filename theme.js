@@ -6,7 +6,23 @@ function s(style, value) {
     document.documentElement.style.setProperty(style, value);
 }
 
+function setTransitions() {
+    const elements = document.querySelectorAll('*');
+    elements.forEach(element => {
+        element.style.transition = 'all 0.5s';
+    });
+}
+
+function unsetTransitions() {
+    const elements = document.querySelectorAll('*');
+    elements.forEach(element => {
+        // remove all transitions
+        element.style.transition = '';
+    });
+}
+
 function setDarkTheme() {
+    setTransitions();
     theme = 'dark';
     s('--accent-color', '#dbb13d');
     s('--sidebar-color', '#292929');
@@ -17,6 +33,7 @@ function setDarkTheme() {
     s('--sidebar-item-color-selected', '#3d3d3d');
     s('--sidebar-item-color-active', '#262626');
     s('--text-color', '#fff');
+    s('--text-color-subtle', '#6e6e6e');
     s('--status-bar-color', '#1E1E1E');
     s('--buttons-and-dropdowns', '#1E1E1E');
     s('--action-button-hover-color', '#656565');
@@ -47,19 +64,24 @@ function setDarkTheme() {
     themeTexts.forEach(text => {
         text.innerText = 'Light Theme';
     });
+    setTimeout(() => {
+        unsetTransitions();
+    }, 500);
 }
 
 function setLightTheme() {
+    setTransitions();
     theme = 'light';
     s('--accent-color', '#dbb13d');
     s('--sidebar-color', '#F9F9F9');
     s('--modal-color', '#F9F9F9');
     s('--sidebar-icon-color', '#242424');
     s('--sidebar-item-color', '#F9F9F9');
-    s('--sidebar-item-color-hover', '#bfbfbf');
+    s('--sidebar-item-color-hover', '#F2F2F2');
     s('--sidebar-item-color-selected', '#e6e6e6');
     s('--sidebar-item-color-active', '#d9d9d9');
     s('--text-color', '#242424');
+    s('--text-color-subtle', '#6e6e6e');
     s('--status-bar-color', '#FFFFFF');
     s('--buttons-and-dropdowns', '#bfbfbf');
     s('--action-button-hover-color', '#cccccc');
@@ -67,7 +89,7 @@ function setLightTheme() {
     s('--status-bar-item-hover-color', '#e6e6e6');
     s('--status-bar-item-active-color', '#d9d9d9');
     s('--popup-color', '#FFFFFF');
-    s('--popup-border-color', '#cccccc');
+    s('--popup-border-color', 'transparent');
     const editor = document.querySelector('.ql-editor');
     editor.style.backgroundColor = '#fff';
     editor.style.color = '#242424';
@@ -90,6 +112,9 @@ function setLightTheme() {
     themeTexts.forEach(text => {
         text.innerText = 'Dark Theme';
     });
+    setTimeout(() => {
+        unsetTransitions();
+    }, 500);
 }
 
 function toggleTheme() {
