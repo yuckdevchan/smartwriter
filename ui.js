@@ -133,6 +133,12 @@ commands = {
         true,
         "View About"
     ],
+    "Show Welcome Dialog": [
+        showWelcomeDialog,
+        "ci:star",
+        true,
+        "View Welcome Dialog"
+    ],
     "Sign Out": [
         openAccountPopup,
         "ci:log-out",
@@ -211,6 +217,31 @@ function closeWelcomeDialog() {
     const welcomeDialog = document.querySelector('#welcomeDialog');
     welcomeDialog.style.opacity = '0';
     welcomeDialog.style.pointerEvents = 'none';
+    const showWelcomeDialogCheckbox = document.querySelector('#showWelcomeDialogCheckbox');
+    if (showWelcomeDialogCheckbox.checked) {
+        document.cookie = 'showWelcomeDialog=false';
+    } else {
+        document.cookie = 'showWelcomeDialog=; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
+    }
+}
+
+function showWelcomeDialog() {
+    const welcomeDialog = document.querySelector('#welcomeDialog');
+    welcomeDialog.style.opacity = '1';
+    welcomeDialog.style.pointerEvents = 'auto';
+}
+
+function toggleWelcomeDialog() {
+    const welcomeDialog = document.querySelector('#welcomeDialog');
+    if (welcomeDialog.style.opacity === '1') {
+        closeWelcomeDialog();
+    } else {
+        showWelcomeDialog();
+    }
+}
+
+if (document.cookie.split(';').filter((item) => item.includes('showWelcomeDialog=false')).length === 0) {
+    showWelcomeDialog();
 }
 
 function updateWordCount() {

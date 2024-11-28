@@ -262,10 +262,15 @@
         <iconify-icon icon="ci:close-lg"></iconify-icon>
         <span>Close</span>
     </div>
-    <div id="welcomeDialog">
-        <h1>Welcome to Smart Writer</h1>
+    <div id="welcomeDialog" style="opacity: 0; pointer-events: none;">
+        <h1>Welcome to Smart Writer!</h1>
+        <img src="images/magic.png" width="100%">
         <p>Smart Writer is a sleek, minimalist and modern note-taking app.</p>
-        <button class="action-button" id="closeWelcomeDialogButton" onclick="closeWelcomeDialog()">Get Started</button>
+        <div class="dontshowagain" style="display: flex; align-items: center; justify-content: center; flex-direction: row; gap: 0.25em;">
+            <input type="checkbox" id="showWelcomeDialogCheckbox" checked>
+            <label for="showWelcomeDialogCheckbox">Don't show again</label>
+        </div>
+        <button class="settings-button" id="closeWelcomeDialogButton" onclick="closeWelcomeDialog()">Let's Go!</button>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
