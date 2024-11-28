@@ -1,6 +1,6 @@
 @font-face {
     font-family: "Inkwell";
-    src: url("https://github.com/yuckdevchan/smartwriter/raw/refs/heads/main/fonts/Inkwell.ttf") format("truetype");
+    src: url("fonts/Inkwell.ttf") format("truetype");
 }
 
 body {
