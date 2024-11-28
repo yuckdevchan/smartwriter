@@ -103,6 +103,9 @@ function closeCommandPalette() {
     commandPalette.style.pointerEvents = 'none';
     document.querySelector('.main-content').style.filter = 'brightness(1)';
     document.querySelector('.main-content').style.pointerEvents = 'auto';
+    const closeCommandPaletteButton = document.querySelector('#closeCommandPaletteButton');
+    closeCommandPaletteButton.style.opacity = '0';
+    closeCommandPaletteButton.style.pointerEvents = 'none';
     setTimeout(() => {
         document.querySelector('#palette input').value = '';
         document.querySelector('#commandPaletteResults').innerHTML = '';
@@ -135,7 +138,7 @@ function updateCommandPaletteResults(e) {
         const commandElement = document.createElement('div');
         commandElement.classList.add('command');
         commandElement.textContent = result;
-        commandElement.addEventListener('click', commands[result]);
+        commandElement.addEventListener('click', commands[result][0]);
         commandPaletteResults.appendChild(commandElement);
     });
 }
@@ -149,6 +152,19 @@ function openCommandPalette() {
     commandPalette.style.pointerEvents = 'auto';
     document.querySelector('.main-content').style.filter = 'brightness(0.5)';
     document.querySelector('.main-content').style.pointerEvents = 'none';
+    const closeCommandPaletteButton = document.querySelector('#closeCommandPaletteButton');
+    closeCommandPaletteButton.style.opacity = '1';
+    closeCommandPaletteButton.style.pointerEvents = 'auto';
+    document.addEventListener('keydown', function runFirstCommand(e) {
+        if (e.key === 'Enter') {
+            const firstCommand = document.querySelector('.command');
+            if (firstCommand) {
+                firstCommand.click();
+                document.removeEventListener('keydown', runFirstCommand);
+                closeCommandPalette();
+            }
+        }
+    });
 }
 
 function toggleCommandPalette() {
@@ -162,7 +178,6 @@ function toggleCommandPalette() {
 
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape' || (e.ctrlKey && e.key === 'k') || (e.ctrlKey && e.key === 'p') || (e.ctrlKey && e.shiftKey && e.key === 'p')) {
-        e.preventDefault();
         toggleCommandPalette();
     }
 });

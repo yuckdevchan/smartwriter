@@ -124,6 +124,10 @@
                 <!-- </div> -->
             </div>
         </div>
+        <div class="tasks">
+            <h1>Tasks</h1>
+            <p>No tasks.</p>
+        </div>
     </div>
     <div class="settings-modal" style="opacity: 0; pointer-events: none;">
         <div class="settings-modal-content">
@@ -250,9 +254,11 @@
             <iconify-icon icon="material-symbols:search-rounded"></iconify-icon>
             <input type="text" id="paletteInput" placeholder="Find an action...">
         </div>
-        <div id="commandPaletteResults">
-
-        </div>
+        <div id="commandPaletteResults"></div>
+    </div>
+    <div id="closeCommandPaletteButton" style="opacity: 0; pointer-events: none;" onclick="closeCommandPalette()">
+        <iconify-icon icon="ci:close-lg"></iconify-icon>
+        <span>Close</span>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>

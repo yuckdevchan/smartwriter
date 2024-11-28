@@ -42,6 +42,7 @@ function setDarkTheme() {
     s('--status-bar-item-active-color', '#4a4a4a');
     s('--popup-color', '#1E1E1E');
     s('--popup-border-color', '#656565')
+    s('--tasks-color', '#1E1E1E');
     const editor = document.querySelector('.ql-editor');
     editor.style.backgroundColor = '#1E1E1E';
     editor.style.color = '#fff';
@@ -90,6 +91,7 @@ function setLightTheme() {
     s('--status-bar-item-active-color', '#d9d9d9');
     s('--popup-color', '#FFFFFF');
     s('--popup-border-color', 'transparent');
+    s('--tasks-color', '#FFFFFF');
     const editor = document.querySelector('.ql-editor');
     editor.style.backgroundColor = '#fff';
     editor.style.color = '#242424';
