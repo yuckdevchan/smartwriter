@@ -445,7 +445,6 @@ body {
     justify-content: center;
     gap: 0.5em;
     width: 30em;
-    max-height: 20em;
     overflow-y: auto;
 }
 
@@ -453,8 +452,7 @@ body {
     border-radius: 0.5em;
     padding: 0.5em;
     display: flex;
-    flex-direction: row;
-    align-items: center;
+    flex-direction: column;
     gap: 0.5em;
     border: none;
     font: inherit;
@@ -462,6 +460,17 @@ body {
     background-color: var(--sidebar-item-color);
     width: 90%;
     box-shadow: 0 0 0.5em #00000031;
+}
+
+#palette #commandPaletteResults .command div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.25em;
+}
+
+#palette #commandPaletteResults .command .path {
+    color: var(--text-color-subtle);
 }
 
 #commandPaletteResults {

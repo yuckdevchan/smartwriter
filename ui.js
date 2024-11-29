@@ -131,23 +131,37 @@ commands = {
         openAbout,
         "mdi:information",
         true,
-        "View About"
+        "View > About"
     ],
     "Show Welcome Dialog": [
         showWelcomeDialog,
         "ci:star",
         true,
-        "View Welcome Dialog"
+        "View > Welcome Dialog"
     ],
-    "Sign Out": [
-        openAccountPopup,
-        "ci:log-out",
-        true,
-        "Account > Sign Out"
+    "Bold Text": [
+        quill.format('bold', true),
+        "ci:bold",
+        true
     ]
 }
 
 function updateCommandPaletteResults(e) {
+    if (signed_in) {
+        commands["Sign Out"] =  [
+            openAccountPopup,
+            "ci:log-out",
+            true,
+            "Account > Sign Out"
+        ]
+    } else {
+        commands["Sign In"] = [
+            document.querySelector(".S9gUrf-YoZ4jf").click(),
+            "fa-brands:google",
+            true,
+            "Account > Sign in with Google"
+        ]
+    }
     const query = e.target.value;
     const results = Object.keys(commands).filter(command => command.toLowerCase().includes(query.toLowerCase()));
     const commandPaletteResults = document.querySelector('#commandPaletteResults');
@@ -161,7 +175,8 @@ function updateCommandPaletteResults(e) {
         iconAndText.appendChild(icon);
         const span = document.createElement('span');
         span.textContent = result;
-        commandElement.appendChild(span);
+        iconAndText.appendChild(span);
+        commandElement.appendChild(iconAndText);
         const path = document.createElement('span');
         path.classList.add('path');
         path.textContent = commands[result][3];
@@ -196,6 +211,10 @@ function openCommandPalette() {
             }
         }
     });
+    document.addEventListener('click', function() {
+        document.querySelector('#palette input').focus();
+        document.removeEventListener(this);
+    });
 }
 
 function toggleCommandPalette() {
@@ -209,7 +228,9 @@ function toggleCommandPalette() {
 
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape' || (e.ctrlKey && e.key === 'k') || (e.ctrlKey && e.key === 'p') || (e.ctrlKey && e.shiftKey && e.key === 'p')) {
-        toggleCommandPalette();
+        if (document.querySelector('#welcomeDialog').style.opacity === "0") {
+            toggleCommandPalette();
+        }
     }
 });
 

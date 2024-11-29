@@ -1,3 +1,5 @@
+signed_in = false
+
 function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
@@ -25,6 +27,7 @@ function handleCredentialResponse(response) {
         content: "Signed in as " + decoded.name + " (" + decoded.email + ")",
         placement: "top",
     });
+    signed_in = true
 }
 
 function signOut() {
@@ -56,5 +59,6 @@ window.onload = function () {
             content: "Signed in as " + decoded.name + " (" + decoded.email + ")",
             placement: "top",
         });
+        signed_in = true
     }
 }
