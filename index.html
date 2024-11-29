@@ -249,6 +249,22 @@
                 <span>Ctrl + Shift + V</span>
             </div>
         </button> -->
+        <button class="popup-button" style="width: 100%;" id="openGeneratePopupButton">
+            <div class="left">
+                <iconify-icon icon="fluent:sparkle-16-regular" style="color: var(--text-color)"></iconify-icon>
+                <span>Generate</span>
+            </div>
+            <div class="right">
+                <span></span>
+            </div>
+        </button>
+    </div>
+    <div id="generatePopup" style="opacity: 0; pointer-events: none;">
+        <span>Generate with AI</span>
+        <div style="display: flex; flex-direction: row; gap: 0.25em;">
+            <input type="text" id="generateInput" placeholder="Write up notes on mitochondria...">
+            <button class="settings-button" id="generateButton" onclick="generateText()">Generate</button>
+        </div>
     </div>
     <div id="palette" style="opacity: 0; pointer-events: none;">
         <span>[esc] to close</span>

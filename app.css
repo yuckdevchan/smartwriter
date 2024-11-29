@@ -344,7 +344,7 @@ body {
     background-color: var(--buttons-and-dropdowns);
 }
 
-#accountPopup, #noteOptionsPopup, #quillContextMenu {
+#accountPopup, #noteOptionsPopup, #quillContextMenu, #generatePopup {
     position: absolute;
     top: 0;
     left: 0;
