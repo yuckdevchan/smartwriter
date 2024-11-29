@@ -401,16 +401,15 @@ body {
 
 #palette {
     position: fixed;
-    top: 10%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    width: 100vw;
+    height: 100vh;
     z-index: 1000;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     gap: 0.5em;
     transition: opacity 0.15s ease;
+    padding-top: 1em;
 }
 
 #palette .search-bar {
