@@ -404,7 +404,7 @@ body {
     top: 10%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 999;
+    z-index: 1000;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -519,7 +519,7 @@ body {
     z-index: 999;
     justify-content: center;
     align-items: center;
-    transition: opacity 0.15s ease;
+    transition: opacity 0.75s ease;
     display: flex;
     flex-direction: column;
     box-shadow: 0 0 1rem #0000008b;
@@ -552,7 +552,7 @@ body {
 #welcomeDialog .dontshowagain input[type="checkbox"] {
     appearance: none;
     border: 0.1em solid #656565;
-    border-radius: 0.5em;
+    border-radius: 0.3em;
     padding: 0.5em;
     background-color: var(--modal-color);
     color: var(--text-color);

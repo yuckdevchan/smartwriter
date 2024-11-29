@@ -41,7 +41,7 @@
                                 <div class="action-button tag-button">
                                     <iconify-icon icon="ci:tag"></iconify-icon>
                                 </div>
-                                <div class="action-button note-options-button">
+                                <div class="action-button note-options-button" onclick="openNoteOptionsPopup()">
                                     <iconify-icon icon="ci:more-vertical"></iconify-icon>
                                 </div>
                             </div>
@@ -55,7 +55,7 @@
                                 <div class="action-button tag-button">
                                     <iconify-icon icon="ci:tag"></iconify-icon>
                                 </div>
-                                <div class="action-button note-options-button">
+                                <div class="action-button note-options-button" onclick="openNoteOptionsPopup()">
                                     <iconify-icon icon="ci:more-vertical"></iconify-icon>
                                 </div>
                             </div>
@@ -268,7 +268,7 @@
         <p>Smart Writer is a sleek, minimalist and modern note-taking app.</p>
         <div class="dontshowagain" style="display: flex; align-items: center; justify-content: center; flex-direction: row; gap: 0.25em;">
             <input type="checkbox" id="showWelcomeDialogCheckbox" checked>
-            <label for="showWelcomeDialogCheckbox">Don't show again</label>
+            <label for="showWelcomeDialogCheckbox">Skip this next time</label>
         </div>
         <button class="settings-button" id="closeWelcomeDialogButton" onclick="closeWelcomeDialog()">Let's Go!</button>
     </div>
